@@ -88,9 +88,10 @@
                 <div class="table-responsive">
                     <h4 class="mt-3 mb-3 w-100 bg-light p-3"><i class="fas fa-box-open me-2"></i>Product Lists</h4>
 
+
                     <h4 v-if="typing" class="w-100 text-center d-flex justify-content-center align-items-center loading">Loading....</h4>
 
-                    <table v-else class="table table-hover table-borderless text-center">
+                    <table v-else class="table table-hover table-borderless text-center w-100">
                     <thead class="table-dark">
                         <tr>
                         <th scope="col" class="fs-6">Serial Number</th>
@@ -141,10 +142,6 @@
             </div>
         </div>
 
-
-       
-
-
     </div>
     <!-- /#page-content-wrapper -->
 
@@ -177,11 +174,6 @@ export default {
 
     setup(){
         let product_lists = ref([]);
-        let expired_lists = ref([]);
-        let stock_lists = ref([]);
-        let product_total = ref('');
-        let num_total_stock = ref('');
-        let crit_stocks1 = ref('');
 
         const search_box = ref('');
         const typing = ref(false);
@@ -231,14 +223,8 @@ export default {
             let url = 'http://127.0.0.1:8000/api/delete/' + id;
             axios_client.delete(url).then(response => {
                 this.getProduct()
-                this.total_products()
-                this.expired_prod()
-                this.low_stocks()
-                this.stock_total()
             })
         }
-
-
 
 
         /* GET PRODUCT TABLE */
@@ -251,84 +237,16 @@ export default {
         }
 
 
-
-
-
-
-
-
-        /* TOTAL OF PRODUCTS IN DASHBOARD */
-        const total_products = async() => {
-            axios_client.get('http://127.0.0.1:8000/api/stats').then(response=>{
-                product_total.value = response.data.product_count
-            }).catch(error =>{
-
-            })
-        }
-
-
-        /* NUMBER OF STOCKS */
-        const stock_total = async() => {
-            axios_client.get('http://127.0.0.1:8000/api/stock_total').then(response=>{
-                num_total_stock.value = response.data.stock_total
-            }).catch(error =>{
-
-            })
-        }
-
-
-
-        /* LISTS OF EXPIRED PRODUCT */
-        const expired_prod = async() => {
-            axios_client.get('http://127.0.0.1:8000/api/expiration').then(response=>{
-                /* console.log(response.data.expiration_date) */
-
-                expired_lists.value = response.data.expiration_date;
-
-            }).catch(error =>{
-
-            })
-        }
-
-
-        /* LISTS OF LOW STOCKS PRODUCT */
-        const low_stocks = async() => {
-            axios_client.get('http://127.0.0.1:8000/api/stocks').then(response=>{
-                /* console.log(response.data.stocks) */
-                stock_lists.value = response.data.stocks
-            }).catch(error =>{
-
-            })
-        }
-
-
-        /* CRITICAL STOCKS IN DASHBOARD */
-        const crit_stocks = async() => {
-            axios_client.get('http://127.0.0.1:8000/api/crit_stocks').then(response=>{
-                /* console.log(response.data.stocks) */
-                crit_stocks1.value = response.data.crit
-            }).catch(error =>{
-
-            })
-        }
-
     
         onMounted(()=> {
             getProduct()
-            expired_prod()
-            low_stocks()
-            total_products()
-            stock_total()
-            crit_stocks()
-        })
 
+        })
 
 
         return {
             user: computed(() => store.state.user.data)
-            ,product_lists,del_prod,getProduct,close,expired_prod,expired_lists,low_stocks
-            ,stock_lists,search_box,typing,product_total,low_stocks,total_products,stock_total
-            ,num_total_stock,crit_stocks1,crit_stocks
+            ,product_lists,del_prod,getProduct,typing
         }
 
 

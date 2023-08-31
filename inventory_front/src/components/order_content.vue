@@ -38,8 +38,6 @@
 
 
                                 <div class="d-flex justify-content-center flex-column align-items-center">
-
-
                                     <p>{{product.serial_number}}</p>
                                     <p>{{product.product_name}}</p>
                                     <p>{{product.stocks}}</p>
@@ -72,7 +70,7 @@
 
 import {reactive, onMounted} from 'vue';
 import axios_client from '../axios';
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 
 export default{

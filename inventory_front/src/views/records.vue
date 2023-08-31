@@ -11,8 +11,6 @@
                 <div class="list-group list-group-flush my-3">
 
 
-
-
                     <router-link :to="{name: 'dashboard'}">
                         <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
                         <i class="bi bi-grid-fill me-2"></i>Dashboard</a>
@@ -23,8 +21,6 @@
                         <i class="bi bi-box-seam-fill me-2"></i>Products</a>
                     </router-link>
                     
-
-
 
                     <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
                     <i class="bi bi-receipt me-2"></i>Sales History</a>

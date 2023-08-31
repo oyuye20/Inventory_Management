@@ -1,0 +1,54 @@
+.main {
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(73, 73, 73);
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.form-control {
+    border: 1px solid rgb(142, 141, 141); 
+    background-color: transparent;
+}
+
+
+
+.field{
+/*     border: 1px solid black; */
+    margin-top: 3rem;
+}
+
+.form {
+    background-color: rgb(238, 236, 236);
+/*     border-radius: 15px; */
+    padding: 3rem;
+}
+
+.title {
+    margin-bottom: 1rem;
+}
+
+.username{
+    margin-top: 2rem;
+}
+
+.submit-log {
+    margin-top: 1.5rem;
+}
+
+.modal-add {
+    border-radius: 0px;
+}
+
+textarea {
+    resize: none;
+    height: 5rem;
+}
+
+.loading {
+    min-height: 10rem;
+}
+

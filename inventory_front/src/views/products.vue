@@ -121,7 +121,13 @@
                             <td class="fs-5">hello</td>
 
                             <td class="m-3">
-                                <button class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
+
+                                <RouterLink :to="{name: 'edit_product', params:{id:product.id} }">
+                                    <button class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
+                                </RouterLink>
+                                
+  
+
                                 <button type="button" class="btn btn-danger mx-1 mt-2" @click.prevent="del_prod(product.id)"><i class="bi bi-trash3-fill"></i></button>
                             </td>
                         </tr>
@@ -129,6 +135,7 @@
                     </tbody>
                     </table>
 
+                    
 
                     <div class="d-flex justify-content-end align-items-center">
                         <Bootstrap5Pagination :data="product_lists" @pagination-change-page="getProduct"/>
@@ -156,7 +163,7 @@ import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 
 import { useStore } from "vuex";
 import { computed, toHandlers } from "vue";
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import {reactive, onMounted} from 'vue';
 import axios_client from '../axios';
 import { ref, watchEffect } from 'vue';
@@ -167,8 +174,9 @@ export default {
     name: 'products',
 
     components: {
-        Bootstrap5Pagination
-    },
+    Bootstrap5Pagination,
+    RouterLink
+},
 
 
 

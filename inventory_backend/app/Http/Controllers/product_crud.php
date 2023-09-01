@@ -39,13 +39,37 @@ class product_crud extends Controller
 
 
     /* UPDATE A PRODUCT */
-    public function update_product($id){
+    public function index_update_product($id){
         $product = products::find($id);
 
         return response()->json([
-            'product' => $product
+            'edit_prod' => $product
         ]);
     }
+
+
+    /* FOR UPDATING THE PRODUCT ITSELF */
+    public function action_update_product(Request $request,$id){
+        $product = products::find($id)->update($request->all());
+
+        if($product){
+            return response()->json([
+                'message' => 'Product updated successfully'
+            ]);
+        }
+        else
+        {
+
+        }
+     
+        
+    }
+
+
+    
+
+
+
 
 
     /* DELETE A PRODUCT */

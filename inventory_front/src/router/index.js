@@ -69,6 +69,15 @@ const router = createRouter({
     /* END OF GUARD FOR ORDER AND LINK */
 
     
+    /* GUARD FOR EDIT PRODUCT AND LINK */
+    {
+      path: '/product/edit/:id',
+      meta: {requiresAuth :true},
+      children:[
+        { path: '/product/:id/edit', name: 'edit_product', component: () => import('../components/edit_prod.vue'), props: true},
+      ]
+    },
+    /* END OF GUARD FOR EDIT PRODUCT AND LINK */
 
             
 

@@ -9,7 +9,7 @@
                 <div class="list-group list-group-flush my-3">
 
                     <a class="list-group-item fs-5 list-group-item-action bg-transparent second-text active text-success">
-                    <i class="bi bi-grid-fill me-2"></i>Dashboard1</a>
+                    <i class="bi bi-grid-fill me-2"></i>Dashboard</a>
 
 
                     <router-link :to="{name: 'products'}">
@@ -306,8 +306,7 @@ import { useRouter } from "vue-router";
 import {reactive, onMounted} from 'vue';
 import axios_client from '../axios';
 import { ref, watchEffect } from 'vue';
-import {useVuelidate} from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
+
 
 export default {
     name: 'dashboard',

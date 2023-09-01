@@ -94,7 +94,7 @@
                             <th scope="col">Date of Production</th>
                             <th scope="col">Expiration Date</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <!-- <th>Actions</th> -->
                             </tr>
                         </thead>
 
@@ -111,10 +111,10 @@
                             <td class="fs-5" >{{product.expiration_date}}</td>
                             <td class="fs-5" >hello</td>
 
-                            <td class="m-3">
+                            <!-- <td class="m-3">
                                 <button class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
                                 <button type="button" class="btn btn-danger mx-1 mt-2" @click.prevent="del_prod(product.id)"><i class="bi bi-trash3-fill"></i></button>
-                            </td>
+                            </td> -->
                         </tr>
 
                     </tbody>
@@ -154,7 +154,7 @@
                             <th scope="col">Date of Production</th>
                             <th scope="col">Expiration Date</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <!-- <th>Actions</th> -->
                             </tr>
                         </thead>
 
@@ -166,15 +166,15 @@
                                 <td class="fs-5" >{{stock.product_name}}</td>
                                 <td class="fs-5 text-center" style="word-break: break-all;" >{{stock.description}}</td>
                                 <td class="fs-5" >{{stock.size}}</td>
-                                <td class="fs-5" >{{stock.stocks}}</td>
+                                <td class="fs-5 text-danger fw-bold" >{{stock.stocks}}</td>
                                 <td class="fs-5" >{{stock.production_date}}</td>
                                 <td class="fs-5" >{{stock.expiration_date}}</td>
                                 <td class="fs-5" >hello</td>
 
-                                <td class="m-3">
+                                <!-- <td class="m-3">
                                     <button class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
                                     <button type="button" class="btn btn-danger mx-1 mt-2" @click.prevent="del_prod(product.id)"><i class="bi bi-trash3-fill"></i></button>
-                                </td>
+                                </td> -->
                             </tr>
 
                         </tbody>

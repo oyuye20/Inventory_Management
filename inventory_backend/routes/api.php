@@ -42,9 +42,11 @@ Route::post('/auth_register', [login::class, 'register']);
 
 /* PRODUCT CRUD */
 Route::post('/add_product', [product_crud::class, 'add_product']);
+Route::put('/update_product/{id}', [product_crud::class, 'action_update_product']);
 Route::get('/products', [product_crud::class, 'index']);
-Route::get('/product/edit/{id}', [product_crud::class, 'update_product']);
+Route::get('/product/edit/{id}', [product_crud::class, 'index_update_product']);
 Route::delete('/delete/{id}', [product_crud::class, 'delete_product']);
+
 
 
 /* STATISTICS AND NOTIFICATIONS*/

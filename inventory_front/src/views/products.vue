@@ -3,7 +3,7 @@
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
 
-            <div class="" id="sidebar-wrapper">
+            <div class="sidebar_wrapper" :class ="{side: isSidebar}">
                 <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
                     <i class="fas fa-warehouse fa-1x me-2"></i>JR Amador</div>
                 <div class="list-group list-group-flush my-3">
@@ -49,7 +49,7 @@
 
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                 <div class="d-flex align-items-center">
-                    <a role="button" @click="toggle_sidebar = !toggle_sidebar"><i class="fas fa-bars me-3 fa-2x"></i></a>
+                    <a v-on:click="isSidebar =! isSidebar" role="button" id="toggle_icon"><i class="fas fa-bars me-3 fa-2x"></i></a>
                     <h2 class="fs-2 m-0">Products</h2>
                 </div>
 
@@ -83,9 +83,14 @@
                         Add new product
                     </button>
                 </router-link>
+
+
+                <div v-if="loading" class="p-3 d-flex justify-content-center align-items-center container-fluid h-100 mt-3">
+                    <span class="spinner-border spinner-border-lg  p-3" aria-hidden="true" style="font-size: ;"></span>
+                 </div>  
                 
 
-                <div class="table-responsive">
+                <div v-else class="table-responsive">
                     <h4 class="mt-3 mb-3 w-100 bg-light p-3"><i class="fas fa-box-open me-2"></i>Product Lists</h4>
 
 
@@ -185,6 +190,9 @@ export default {
 
         const search_box = ref('');
         const typing = ref(false);
+        const isSidebar = ref(false);
+
+        const loading = ref(true);
 
         watchEffect((onvalidate) =>{
         search_box.value
@@ -239,6 +247,7 @@ export default {
         const getProduct = async(page = 1) => {
             axios_client.get('http://127.0.0.1:8000/api/products?page=' + page).then(response=>{
                 product_lists.value = response.data;
+                loading.value = false;
             }).catch(error =>{
 
             })
@@ -254,7 +263,7 @@ export default {
 
         return {
             user: computed(() => store.state.user.data)
-            ,product_lists,del_prod,getProduct,typing
+            ,product_lists,del_prod,getProduct,typing,loading,isSidebar
         }
 
 

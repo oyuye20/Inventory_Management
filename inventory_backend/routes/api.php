@@ -56,6 +56,8 @@ Route::get('/stocks', [stats::class, 'stocks']);
 Route::get('/stock_total', [stats::class, 'stock_total']);
 Route::get('/crit_stocks', [stats::class, 'critical_stocks']);
 
+Route::get('/exp_count', [stats::class, 'expired_count']);
+
 
 /* SEARCH AND FILTER */
 Route::get('/search/{data}', [filter::class, 'search']);

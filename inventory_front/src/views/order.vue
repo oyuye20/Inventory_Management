@@ -3,7 +3,7 @@
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
 
-            <div class="" id="sidebar-wrapper">
+            <div class="sidebar_wrapper" :class ="{side: isSidebar}">
                 <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
                     <i class="fas fa-warehouse fa-1x me-2"></i>JR Amador</div>
                 <div class="list-group list-group-flush my-3">
@@ -49,7 +49,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                 <div class="d-flex align-items-center">
 
-                    <a role="button" @click="toggle_sidebar = !toggle_sidebar"><i class="fas fa-bars me-3 fa-2x"></i></a>
+                    <a v-on:click="isSidebar =! isSidebar" role="button" id="toggle_icon"><i class="fas fa-bars me-3 fa-2x"></i></a>
                     
                     <h2 class="fs-4 m-0">Create a new transaction</h2>
                 </div>
@@ -79,7 +79,23 @@
 
             
             <div class="container-fluid px-4">             
-                <order_content /> 
+                <!-- <order_content />  -->
+
+
+                <div class="">
+                    <input type="text" v-model="sam">
+                    <button @click="add_cart" class="btn btn-primary  w-100" >Product One</button>
+                </div>
+
+                
+                <div class="border border-dark mt-3">
+                    <div class="" v-for="cart in carts" :key="cart.id">
+                    <p>{{ cart.name }}</p>
+                    </div>
+                </div>
+
+
+
             </div>
 
 
@@ -108,19 +124,50 @@ import axios_client from '../axios';
 import { ref, watchEffect } from 'vue';
 import {useVuelidate} from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
-import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 import order_content from '../components/order_content.vue';
 
 export default {
     name: 'order',
 
     components: {
-        Bootstrap5Pagination,
         order_content
     },
 
 
     setup(){
+        let sam  = ref ([])
+
+
+
+        let carts = ref([
+        {
+            name: 'Hello World',
+        }
+
+        ]);
+
+
+        function add_cart(){
+
+
+            console.log(sam)
+
+            carts.value.push(sam)
+
+
+            /* if(sam.val){
+                carts.val.push({
+                    title: sam.val
+                })
+            } */
+        }   
+
+
+
+        const isSidebar = ref(false);
+
+
+
         let product_lists = ref([]);
         let expired_lists = ref([]);
         let stock_lists = ref([]);
@@ -276,7 +323,9 @@ export default {
             user: computed(() => store.state.user.data)
             ,product_lists,del_prod,getProduct,close,expired_prod,expired_lists,low_stocks
             ,stock_lists,search_box,typing,product_total,low_stocks,total_products,stock_total
-            ,num_total_stock,crit_stocks1,crit_stocks,logout
+            ,num_total_stock,crit_stocks1,crit_stocks,logout,
+            
+            carts,sam,add_cart,isSidebar
         }
 
 

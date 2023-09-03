@@ -3,7 +3,7 @@
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
 
-            <div class="" id="sidebar-wrapper">
+            <div class="sidebar_wrapper" :class ="{side: isSidebar}">
                 <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
 
                 <i class="fas fa-warehouse me-2"></i>JR Amador</div>
@@ -32,7 +32,7 @@
                     <i class="bi bi-stack me-2"></i>Categories</a>
 
                     
-                    <a  @click="logout" class="list-group-item fs-5 list-group-item-action bg-transparent text-light fw-bold">
+                    <a @click="logout" class="list-group-item fs-5 list-group-item-action bg-transparent text-light fw-bold">
                     <i class="bi bi-power me-2"></i>Logout</a>
 
                 </div>
@@ -48,7 +48,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                 <div class="d-flex align-items-center">
                     <!-- <button class="btn btn-primary" @click="toggle_sidebar = !toggle_sidebar">close</button> -->
-                    <a role="button" @click="toggle_sidebar = !toggle_sidebar"><i class="fas fa-bars me-3 fa-2x"></i></a>
+                    <a v-on:click="isSidebar =! isSidebar" role="button" id="toggle_icon"><i class="fas fa-bars me-3 fa-2x"></i></a>
                     <h2 class="fs-2 m-0">Records</h2>
                 </div>
 
@@ -77,7 +77,11 @@
 
             <div class="container-fluid px-4">
 
-                <records_content />
+                <tutorial/>
+                
+
+                <!-- <records_content /> -->
+                
             </div>
 
 
@@ -101,13 +105,16 @@ import { computed, toHandlers } from "vue";
 import { useRouter } from "vue-router";
 import {reactive, onMounted} from 'vue';
 import records_content from '../components/records_content.vue'
+import tutorial from '../components/tutorial.vue'
+import { ref } from 'vue'
 
 export default {
     name: 'records',
 
     components: {
         Bootstrap5Pagination,
-        records_content
+        records_content,
+        tutorial
     },
 
 
@@ -115,6 +122,8 @@ export default {
 
         const store = useStore();
         const router = useRouter();
+
+        const isSidebar = ref(false);
 
     
         onMounted(()=> {
@@ -128,7 +137,7 @@ export default {
         }
 
         return {
-            user: computed(() => store.state.user.data),logout
+            user: computed(() => store.state.user.data),logout,isSidebar
         }
 
 

@@ -33,6 +33,18 @@ class stats extends Controller
     }
 
 
+    /* NUMBER OF EXPIRED PRODUCTS */
+    public function expired_count(){
+        $p = products::whereDate('expiration_date', '<', now())->count();
+
+        return response()->json([
+            'exp_count' => $p,
+            'code' => 200
+        ]);
+
+    }
+
+
     /* TOTAL OF SUM STOCKS IN DASHBOARD*/
     public function stock_total(){
         $total_stock = products::select('stocks')->sum('stocks');

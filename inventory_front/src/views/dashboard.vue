@@ -3,7 +3,7 @@
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
 
-            <div class="" id="sidebar-wrapper">
+            <div class="sidebar_wrapper" :class ="{side: isSidebar}">
                 <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
                     <i class="fas fa-warehouse fa-1x me-2"></i>JR Amador</div>
                 <div class="list-group list-group-flush my-3">
@@ -48,7 +48,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                 <div class="d-flex align-items-center">
 
-                    <a role="button" @click="toggle_sidebar = !toggle_sidebar"><i class="fas fa-bars me-3 fa-2x"></i></a>
+                    <a v-on:click="isSidebar =! isSidebar" role="button" id="toggle_icon"><i class="fas fa-bars me-3 fa-2x"></i></a>
                     
                     <h2 class="fs-2 m-0">Dashboard</h2>
                 </div>
@@ -174,7 +174,7 @@
                                 <div class="p-3 d-flex justify-content-around align-items-center rounded w-100">
 
                                     <div>
-                                        <h3 class="fs-2 text-light">1</h3>
+                                        <h3 class="fs-2 text-light">{{ exp_list_count }}</h3>
                                         <p class="fs-5 text-light">Expired Products</p>
                                     </div>
                                     <i class=""></i>
@@ -324,6 +324,10 @@ export default {
         let product_total = ref('');
         let num_total_stock = ref('');
         let crit_stocks1 = ref('');
+        const isSidebar = ref(false);
+
+
+        let exp_list_count = ref('');
 
         const search_box = ref('');
         const typing = ref(false);
@@ -370,21 +374,6 @@ export default {
         })
 
 
-
-        /* DELETE A PRODUCT */
-        function del_prod(id){
-            let url = 'http://127.0.0.1:8000/api/delete/' + id;
-            axios_client.delete(url).then(response => {
-                this.getProduct()
-                this.total_products()
-                this.expired_prod()
-                this.low_stocks()
-                this.stock_total()
-            })
-        }
-
-
-
         /* GET PRODUCT TABLE */
         const getProduct = async() => {
             axios_client.get('http://127.0.0.1:8000/api/products').then(response=>{
@@ -413,6 +402,18 @@ export default {
 
             })
         }
+
+
+        /* EXPIRED PRODUCT COUNT */
+        const exp_count_f = async() => {
+            axios_client.get('http://127.0.0.1:8000/api/exp_count').then(response=>{
+                exp_list_count.value = response.data.exp_count
+            }).catch(error =>{
+
+            })
+        }
+
+
 
 
 
@@ -458,6 +459,7 @@ export default {
             total_products()
             stock_total()
             crit_stocks()
+            exp_count_f()
         })
 
         function logout(){
@@ -469,9 +471,9 @@ export default {
 
         return {
             user: computed(() => store.state.user.data)
-            ,product_lists,del_prod,getProduct,close,expired_prod,expired_lists,low_stocks
+            ,product_lists,getProduct,close,expired_prod,expired_lists,low_stocks
             ,stock_lists,search_box,typing,product_total,low_stocks,total_products,stock_total
-            ,num_total_stock,crit_stocks1,crit_stocks,logout
+            ,num_total_stock,crit_stocks1,crit_stocks,logout,exp_count_f,exp_list_count,isSidebar
         }
 
 

@@ -99,8 +99,6 @@ export default {
 
     
 
-    /* const props = defineProps({id: String}); */
-
     /* GET PRODUCT TABLE */
     const getProduct = async() => {
         axios_client.get(`http://127.0.0.1:8000/api/product/edit/` + route.params.id).then(response=>{
@@ -112,8 +110,9 @@ export default {
     }
 
 
-    function update_Product (){
 
+    /* UPDATE A PRODUCT */
+    function update_Product (){
         loading.value = true;
 
         axios_client.put(`http://127.0.0.1:8000/api/update_product/` + route.params.id, edit_prod_val.value).then(response=>{
@@ -124,6 +123,9 @@ export default {
         })
     }
 
+
+
+    /* PREVENT ALPHANUMERIC CHARACTERS INPUT */
     function filter_input(){
         this.edit_prod_val.serial_number = this.edit_prod_val.serial_number.replace(/[^0-9]/g, "");
         this.edit_prod_val.stocks = this.edit_prod_val.stocks.replace(/[^0-9]/g, "");

@@ -1,6 +1,15 @@
 <template>
 
-<!-- CHOICES TAB -->
+
+    <div v-if="loading" class="div p-3 flex-column d-flex justify-content-center align-items-center container-fluid" style="height: 100vh;">
+        <p class="fw-bold fs-3">Loading...</p>
+        <span class="spinner-border spinner-border-sm  p-3" aria-hidden="true" style="font-size: ;"></span>
+    </div>  
+
+
+<div v-else class="div">
+
+    <!-- CHOICES TAB -->
     <ul class="nav nav-underline mb-3 d-flex justify-content-center mt-3" id="pills-tab" role="tablist">
 
         <li class="nav-item col-2" role="presentation">
@@ -57,6 +66,8 @@
 
 
         </ul>
+
+          
 
             <div class="tab-content" id="pills-tabContent">
 
@@ -186,6 +197,14 @@
 
 
             </div>
+
+
+</div>
+
+
+
+
+
 </template>
 
 
@@ -207,10 +226,15 @@ export default {
         let stock_lists = ref([]);
 
 
+        const loading = ref(true);
+
+
         /* GET PRODUCT TABLE */
         const getProduct = async(page = 1) => {
+
             axios_client.get('http://127.0.0.1:8000/api/products?page=' + page).then(response=>{
                 product_lists.value = response.data;
+                loading.value = false;
             }).catch(error =>{
 
             })
@@ -221,6 +245,7 @@ export default {
             axios_client.get('http://127.0.0.1:8000/api/stocks').then(response=>{
                 /* console.log(response.data.stocks) */
                 stock_lists.value = response.data.stocks
+                loading.value = false;
             }).catch(error =>{
 
             })
@@ -240,7 +265,7 @@ export default {
         })
 
         return {
-            product_lists,stock_lists,getProduct,low_stocks,del_prod
+            product_lists,stock_lists,getProduct,low_stocks,del_prod,loading
         }
 
 

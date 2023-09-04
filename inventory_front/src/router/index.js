@@ -60,10 +60,10 @@ const router = createRouter({
 
     /* GUARD FOR ORDER AND LINK */
     {
-      path: '/order',
+      path: '/transaction',
       meta: {requiresAuth :true},
       children:[
-        { path: '/order', name: 'order', component: () => import('../views/order.vue')},
+        { path: '/transaction', name: 'transaction', component: () => import('../views/order.vue')},
       ]
     },
     /* END OF GUARD FOR ORDER AND LINK */
@@ -74,7 +74,7 @@ const router = createRouter({
       path: '/product/edit/:id',
       meta: {requiresAuth :true},
       children:[
-        { path: '/product/:id/edit', name: 'edit_product', component: () => import('../components/edit_prod.vue'), props: true},
+        { path: '/product/edit/:id', name: 'edit_product', component: () => import('../components/edit_prod.vue'), props: true},
       ]
     },
     /* END OF GUARD FOR EDIT PRODUCT AND LINK */

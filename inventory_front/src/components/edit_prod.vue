@@ -2,7 +2,7 @@
     <div class="container d-flex justify-content-center mt-3">
 
         
-<form class="col-12" @submit.prevent="update_Product()">
+<form class="col-12 p-1 mb-3" @submit.prevent="update_Product()">
 
     <h4>Edit Product</h4>
 
@@ -57,7 +57,7 @@
 
     <div class="modal-footer">
 
-        <button type="submit" :disabled="loading" class="btn btn-success me-2 modal-add">
+        <button type="submit" :disabled="loading" class="btn btn-success me-2 modal-add ">
             <span v-if="loading" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Update Product
         </button>
 

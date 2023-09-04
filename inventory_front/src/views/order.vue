@@ -8,13 +8,21 @@
                     <i class="fas fa-warehouse fa-1x me-2"></i>JR Amador</div>
                 <div class="list-group list-group-flush my-3">
 
-                    <a class="list-group-item fs-5 list-group-item-action bg-transparent second-text active text-success">
-                    <i class="bi bi-grid-fill me-2"></i>Dashboard</a>
+                    <router-link :to="{name: 'dashboard'}">
+                        <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
+                        <i class="bi bi-grid-fill me-2"></i>Dashboard</a>
+                    </router-link>
 
 
                     <router-link :to="{name: 'products'}">
                         <a class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
                     <i class="bi bi-box-seam-fill me-2"></i>Products</a>
+                    </router-link>
+
+
+                    <router-link :to="{name: 'transaction'}">
+                        <a class="list-group-item fs-5 list-group-item-action bg-transparent second-text active text-success">
+                        <i class="fas fa-receipt me-2"></i>Transactions</a>
                     </router-link>
   
 
@@ -78,26 +86,34 @@
             </nav>
 
             
-            <div class="container-fluid px-4">             
-                <!-- <order_content />  -->
+            <div class="container-fluid px-4"> 
+               <!--  <p>{{ product.id }}</p>            
+               <p>{{ product.product_name }}</p>
+               <input type="text" v-model="quantity">
 
-
-                <div class="">
-                    <input type="text" v-model="sam">
-                    <button @click="add_cart" class="btn btn-primary  w-100" >Product One</button>
-                </div>
-
-                
-                <div class="border border-dark mt-3">
-                    <div class="" v-for="cart in carts" :key="cart.id">
-                    <p>{{ cart.name }}</p>
-                    </div>
-                </div>
-
-
+                <button @click="cart_add.add_cart(product.id,product.product_name,quantity)" class="btn btn-primary">add to cart</button>
 
             </div>
+            
 
+            <div class="cart container-fluid px-4 mt-3">
+
+                <div class="div" v-for="cart1 in cart_lists" :key="cart1.id">
+                    {{ cart1.id }}
+                    {{ cart1.product_name }}
+                    {{ cart1.quantity }}
+                </div>
+ -->
+                <order_content/>
+            </div>
+
+
+           
+
+            
+
+
+           
 
         </div>
 
@@ -116,6 +132,8 @@
 <script>
 import '../assets/dashboard.css'
 
+
+import {useCartStore} from '../stores/cart'
 import { useStore } from "vuex";
 import { computed, toHandlers } from "vue";
 import { useRouter } from "vue-router";
@@ -126,6 +144,7 @@ import {useVuelidate} from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
 import order_content from '../components/order_content.vue';
 
+
 export default {
     name: 'order',
 
@@ -135,36 +154,20 @@ export default {
 
 
     setup(){
-        let sam  = ref ([])
-
-
-
-        let carts = ref([
-        {
-            name: 'Hello World',
-        }
-
-        ]);
-
-
-        function add_cart(){
-
-
-            console.log(sam)
-
-            carts.value.push(sam)
-
-
-            /* if(sam.val){
-                carts.val.push({
-                    title: sam.val
-                })
-            } */
-        }   
+        
+        const CartStore = useCartStore()
+        const cart_add = useCartStore()
+        const lists = computed(()=> CartStore.prod)
+        const cart_lists = CartStore.cart
 
 
 
         const isSidebar = ref(false);
+
+        
+
+
+        const quantity = ref('');
 
 
 
@@ -310,6 +313,7 @@ export default {
             total_products()
             stock_total()
             crit_stocks()
+            CartStore.getProduct()
         })
 
         function logout(){
@@ -323,9 +327,7 @@ export default {
             user: computed(() => store.state.user.data)
             ,product_lists,del_prod,getProduct,close,expired_prod,expired_lists,low_stocks
             ,stock_lists,search_box,typing,product_total,low_stocks,total_products,stock_total
-            ,num_total_stock,crit_stocks1,crit_stocks,logout,
-            
-            carts,sam,add_cart,isSidebar
+            ,num_total_stock,crit_stocks1,crit_stocks,logout,isSidebar,lists,cart_add,cart_lists,quantity
         }
 
 

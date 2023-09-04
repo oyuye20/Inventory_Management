@@ -20,6 +20,12 @@
                         <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
                         <i class="bi bi-box-seam-fill me-2"></i>Products</a>
                     </router-link>
+
+
+                    <router-link :to="{name: 'transaction'}">
+                        <a class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
+                        <i class="fas fa-receipt me-2"></i>Transactions</a>
+                    </router-link>
                     
 
                     <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
@@ -77,10 +83,10 @@
 
             <div class="container-fluid px-4">
 
-                <tutorial/>
+                <!-- <tutorial/> -->
                 
 
-                <!-- <records_content /> -->
+                <records_content />
                 
             </div>
 

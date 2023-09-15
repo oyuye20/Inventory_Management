@@ -1,51 +1,46 @@
 <template>
 
 
-
-<input type="text" class="form-control mb-3" v-model="add_new">
-<button @click="new_function" class="btn btn-primary form-control mb-3">Add new</button>
-
-
-<div class="div" v-for="carts in CartStore.cart">
-<p>{{ carts.id }}</p>
-<p>{{ carts.product_name }}</p>
+<div class="w-50">
+    <StreamBarcodeReader @decode="onDecode"></StreamBarcodeReader>
 </div>
 
-
-<p>Price {{ CartStore.total }}</p>
+<p class="fw-bold">{{ res }}</p>
 
 </template>
 
 
 
 <script>
-import {useCartStore} from '../stores/cart'
 import { ref, watchEffect } from 'vue';
+import {QrcodeStream} from 'vue-qrcode-reader';
+import { StreamBarcodeReader } from "vue-barcode-reader";
 
 export default {
     name: 'tutorial',
 
+    components: {
+        QrcodeStream,
+        StreamBarcodeReader
+    },
+
 
     setup(){
-        const CartStore = useCartStore()
-        const add_new = ref('');
 
-        const new_function = () => {
-            if(add_new.value.length > 0){
-                CartStore.addCart({
-                    id: Math.floor(Math.random() * 1000),
-                    quantity: 10,
-                    product_name: add_new.value,
-                    price: 1000
-                })
-                add_new.value = ''
-            }
+
+        const res = ref([]);
+ 
+        function onDecode(result) {
+
+        res.value = result
+        console.log(res.value)
+        
         }
+        
 
-
-        return {CartStore,new_function,add_new}
-
-
+        return{
+            onDecode,res
+        }
 
     }
 

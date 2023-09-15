@@ -99,6 +99,11 @@
                 <div v-else class="table-responsive">
                     <h4 class="mt-3 mb-3 w-100 bg-light p-3"><i class="fas fa-box-open me-2"></i>Product Lists</h4>
 
+                    <div class="container-fluid d-flex mb-3 mt-3">
+                        <input type="text" role="searchbox" class="form-control me-3" placeholder="search a product">
+                        <button  class="btn btn-sm btn-primary"><i class="fas fa-magnifying-glass"></i></button>
+                    </div>
+
 
                     <h4 v-if="typing" class="w-100 text-center d-flex justify-content-center align-items-center loading">Loading....</h4>
 
@@ -146,10 +151,11 @@
                     </tbody>
                     </table>
 
-                    
 
-                    <div class="d-flex justify-content-end align-items-center">
-                        <Bootstrap5Pagination :data="product_lists" @pagination-change-page="getProduct"/>
+                    <div class="d-flex justify-content-end align-items-center" >
+                        <Bootstrap5Pagination :limit="1" :keepLength="true" :data="product_lists" class="shadow-sm"  
+                        @pagination-change-page="getProduct"
+                        />
                     </div>
                     
                 </div>
@@ -199,6 +205,7 @@ export default {
         const isSidebar = ref(false);
 
         const loading = ref(true);
+
 
         watchEffect((onvalidate) =>{
         search_box.value
@@ -258,7 +265,6 @@ export default {
 
             })
         }
-
 
     
         onMounted(()=> {

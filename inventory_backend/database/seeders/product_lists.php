@@ -17,18 +17,25 @@ class product_lists extends Seeder
     public function run(): void
     {
 
-       /*  $product->serial_number = $request->serial_number;
-        $product->manufacturer = $request->manufacturer;
-        $product->product_name = $request->product_name;
-        $product->description = $request->description;
-        $product->size = $request->size;
-        $product->stocks = $request->stocks;
-        $product->production_date = $request->production_date;
-        $product->expiration_date = $request->expiration_date; */
+
+        for($i = 1; $i <=50; $i++){
+            products::create([
+                'serial_number'=>fake()->ean13(),
+                'manufacturer'=>fake()->company(),
+                'product_name'=>"product name $i",
+                'description'=>"description $i",
+                'price'=>(rand(00,1000)),
+                'size'=>(rand(00,1000)),
+                'stocks'=>(rand(00,1000)),
+                'production_date'=>fake()->dateTime(),
+                'expiration_date'=>fake()->dateTime(),
+            ]);
+        }
+       
 
         
 
-        DB::table('products')->insert([
+       /*  DB::table('products')->insert([
             'serial_number'=>fake()->randomNumber(5),
             'manufacturer'=>fake()->name,
             'product_name'=>fake()->name,
@@ -37,6 +44,6 @@ class product_lists extends Seeder
             'stocks'=>fake()->randomNumber(2),
             'production_date'=>fake()->dateTime(),
             'expiration_date'=>fake()->dateTime(),
-        ]);
+        ]); */
     }
 }

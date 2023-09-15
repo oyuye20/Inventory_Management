@@ -12,29 +12,38 @@
     <!-- CHOICES TAB -->
     <ul class="nav nav-underline mb-3 d-flex justify-content-center mt-3" id="pills-tab" role="tablist">
 
-        <li class="nav-item col-2" role="presentation">
+        <li class="nav-item col-1.5 me-3" role="presentation">
 
-            <button class="nav-link active w-100 fs-5" id="pills-sold-tab" 
+            <button class="nav-link active fs-5" id="pills-sold-tab" 
             data-bs-toggle="pill" data-bs-target="#pills-sold" type="button" 
             role="tab" aria-controls="pills-sold" aria-selected="true"><i class="fas fa-file-invoice-dollar me-2"></i>Sold Items</button>
 
         </li>
 
 
-        <li class="nav-item col-2" role="presentation">
+        <li class="nav-item col-1.5  me-3" role="presentation">
 
-            <button class="nav-link w-100 fs-5" id="pills-critical-tab" 
+            <button class="nav-link fs-5" id="pills-critical-tab" 
             data-bs-toggle="pill" data-bs-target="#pills-critical" type="button" 
             role="tab" aria-controls="pills-critical" aria-selected="true"><i class="fas fa-triangle-exclamation me-2"></i>
             Critical Stocks</button>
 
         </li>
 
+        <li class="nav-item col-1.5 me-3" role="presentation">
+
+            <button class="nav-link fs-5" id="pills-critical-tab" 
+            data-bs-toggle="pill" data-bs-target="#pills-expired" type="button" 
+            role="tab" aria-controls="#pills-expired" aria-selected="true"><i class="fas fa-triangle-exclamation me-2"></i>
+            Expired Products</button>
+
+        </li>
 
 
-        <li class="nav-item col-2" role="presentation">
 
-            <button class="nav-link w-100 fs-5" id="pills-inventory-tab" 
+        <li class="nav-item col-1.5 me-3" role="presentation">
+
+            <button class="nav-link fs-5" id="pills-inventory-tab" 
             data-bs-toggle="pill" data-bs-target="#pills-inventory" type="button" 
             role="tab" aria-controls="pills-inventory" aria-selected="false">
             <i class="fas fa-box me-2"></i>
@@ -43,9 +52,9 @@
         </li>
 
 
-        <li class="nav-item col-2" role="presentation">
+        <li class="nav-item col-1.5  me-3" role="presentation">
 
-            <button class="nav-link w-100 fs-5" id="pills-cancel-tab" 
+            <button class="nav-link fs-5" id="pills-cancel-tab" 
             data-bs-toggle="pill" data-bs-target="#pills-cancel" type="button" 
             role="tab" aria-controls="pills-cancel" aria-selected="false">
             <i class="fas fa-ban me-2"></i>
@@ -54,9 +63,9 @@
         </li>
 
 
-        <li class="nav-item col-2" role="presentation">
+        <li class="nav-item col-1.5  me-3" role="presentation">
 
-            <button class="nav-link w-100 fs-5" id="pills-stock-tab" 
+            <button class="nav-link w-70 fs-5" id="pills-stock-tab" 
             data-bs-toggle="pill" data-bs-target="#pills-stock" type="button" 
             role="tab" aria-controls="pills-stock" aria-selected="false">
             <i class="far fa-clock me-2"></i>
@@ -132,8 +141,10 @@
                     </table>
 
 
-                    <div class="d-flex justify-content-end align-items-center">
-                        <Bootstrap5Pagination :data="product_lists" @pagination-change-page="getProduct"/>
+                    <div class="d-flex justify-content-end align-items-center" >
+                        <Bootstrap5Pagination :limit="1" :keepLength="true" :data="product_lists" class="shadow-sm"  
+                        @pagination-change-page="getProduct"
+                        />
                     </div>
 
                 </div>
@@ -196,6 +207,67 @@
                 <!-- END OF CRITICAL TAB -->
 
 
+
+            
+                <!-- EXPIRED TAB -->
+                <div class="tab-pane fade" id="pills-expired" role="tabpanel" aria-labelledby="pills-expired-tab" tabindex="0">
+
+                    <h4 class="mt-3 w-100 bg-light p-3"><i class="fas fa-exclamation-triangle me-2 text-danger"></i><span class="text-danger fw-bold">Expired Products</span></h4>
+
+                    <div class="table-responsive">
+                    
+
+                    <table class="table table-hover table-borderless text-center">
+                        <thead class="table-dark">
+                            <tr>
+                            <th scope="col">Serial Number</th>
+                            <th scope="col">Manufacturer</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Size Name</th>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Date of Production</th>
+                            <th scope="col">Expiration Date</th>
+                            <th>Status</th>
+                            <!-- <th>Actions</th> -->
+                            </tr>
+                        </thead>
+
+                        <tbody v-for="expire in expired_lists.data" :key="expire.id" class="">
+                            <tr>
+                                <td hidden>{{expire.id}}</td>
+                                <td class="fs-5" >{{expire.serial_number}}</td>
+                                <td class="fs-5" >{{expire.manufacturer}}</td>
+                                <td class="fs-5" >{{expire.product_name}}</td>
+                                <td class="fs-5 text-center" style="word-break: break-all;" >{{expire.description}}</td>
+                                <td class="fs-5" >{{expire.size}}</td>
+                                <td class="fs-5 text-danger fw-bold" >{{expire.stocks}}</td>
+                                <td class="fs-5" >{{expire.production_date}}</td>
+                                <td class="fs-5" >{{expire.expiration_date}}</td>
+                                <td class="fs-5" >hello</td>
+
+                                <!-- <td class="m-3">
+                                    <button class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
+                                    <button type="button" class="btn btn-danger mx-1 mt-2" @click.prevent="del_prod(product.id)"><i class="bi bi-trash3-fill"></i></button>
+                                </td> -->
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <div class="d-flex justify-content-end align-items-center" > 
+                        <Bootstrap5Pagination :limit="1" :keepLength="true" :data="expired_lists" class="shadow-sm"  
+                        @pagination-change-page="expired_prod"
+                        />
+                    </div>
+
+
+                </div>
+                    
+                </div>
+                <!-- END OF CRITICAL TAB -->
+
+
             </div>
 
 
@@ -224,6 +296,7 @@ export default {
     setup(){
         let product_lists = ref([]);
         let stock_lists = ref([]);
+        let expired_lists = ref([]);
 
 
         const loading = ref(true);
@@ -239,6 +312,21 @@ export default {
 
             })
         }
+
+
+        /* LISTS OF EXPIRED PRODUCT */
+        const expired_prod = async(page = 1) => {
+            axios_client.get('http://127.0.0.1:8000/api/expiration?page=' + page).then(response=>{
+                /* console.log(response.data.expiration_date) */
+
+                expired_lists.value = response.data;
+              
+            }).catch(error =>{
+                console.log(error.response)
+            })
+        }
+
+
 
         /* LISTS OF LOW STOCKS PRODUCT */
         const low_stocks = async() => {
@@ -262,10 +350,11 @@ export default {
         onMounted(()=> {
             getProduct()
             low_stocks()
+            expired_prod()
         })
 
         return {
-            product_lists,stock_lists,getProduct,low_stocks,del_prod,loading
+            product_lists,stock_lists,getProduct,low_stocks,del_prod,loading,expired_prod,expired_lists
         }
 
 

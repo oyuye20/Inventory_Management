@@ -4,7 +4,7 @@
         <div class="col-xl-7 mt-3">
             
             <div class="bg-light w-100">
-                <h4 class="p-3 bg-dark text-light"><i class="fas fa-cash-register me-2"></i>Transaction</h4>
+                <h4 class="p-3 text-light" style="background-color: rgb(69, 115, 26);"><i class="fas fa-cash-register me-2"></i>Transaction</h4>
 
 
                 <div class="d-flex justify-content-between p-3">
@@ -51,10 +51,10 @@
                 </div>
 
                 <div class="p-3 bg-dark mt-3">
-                    <h4 class="text-light"><i class="fas fa-coins me-2"></i>Sub Total: ₱ {{CartStore.grand_total}}</h4>
-                    <h4 class="text-light"><i class="fas fa-coins me-2"></i>VAT: ₱ {{ CartStore.grand_total * 0.12 }}</h4>
-                    <h4 class="text-light"><i class="fas fa-coins me-2"></i>Grand Total: ₱ {{(CartStore.grand_total * 0.12) + CartStore.grand_total}}</h4>
-                    <button class="btn btn-success">Check Out</button>
+                    <h4 class="text-light"><i class="fas fa-coins me-2 m-2"></i>Sub Total: ₱ {{CartStore.grand_total.toFixed(2)}}</h4>
+                    <h4 class="text-light"><i class="fas fa-coins me-2 m-2"></i>VAT(12%): ₱ {{ (CartStore.grand_total * 0.12).toFixed(2) }}</h4>
+                    <h4 class="text-light"><i class="fas fa-coins me-2 m-2"></i>Grand Total: ₱ {{((CartStore.grand_total * 0.12) + CartStore.grand_total).toFixed(2)}}</h4>
+                    <button class="btn btn-success me-2 m-2">Check Out</button>
                 </div>
 
                 
@@ -79,8 +79,8 @@
                     <div class="row g-1">
 
                         <div class="container d-flex mb-3 mt-3">
-                            <input type="text" role="searchbox" class="form-control me-2" placeholder="search a product">
-                            <button class="btn btn-sm btn-primary"><i class="fas fa-magnifying-glass"></i></button>
+                            <input type="text" v-model="search_data" role="searchbox" class="form-control me-2" placeholder="search a product">
+                            <button @click="btn_search(search_data)" class="btn btn-sm btn-primary"><i class="fas fa-magnifying-glass"></i></button>
                         </div>
                         
 
@@ -107,12 +107,15 @@
                                 
                             </div>
                         </div>
+
                         
                     </div>
 
+                    
+
 
                     <div class="w-100 d-flex justify-content-center mt-3">
-                        <Bootstrap5Pagination :data="lists" @pagination-change-page="CartStore.getProduct"/>
+                        <Bootstrap5Pagination :data="lists" :limit="2" @pagination-change-page="CartStore.getProduct"/>
                     </div>
                     
 
@@ -120,6 +123,7 @@
         </div>
 </div>
 
+<p>hello</p>
 
 </template>
 
@@ -132,6 +136,7 @@ import { ref } from 'vue';
 import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 import {useCartStore} from '../stores/cart'
 import { computed, toHandlers } from "vue";
+import { faker } from '@faker-js/faker';
 
 export default{
     name: 'order_content',
@@ -143,6 +148,7 @@ export default{
 
     setup(){
         let product_lists = ref([]);
+        let search_data = ref([]);
 
 
         const CartStore = useCartStore()
@@ -151,14 +157,29 @@ export default{
         const cart_lists = CartStore.cart
 
         const deplete1 = CartStore.deplete
-
+        
 
         onMounted(()=> {
             /* getProduct() */
         })
 
+
+
+        function btn_search(search_data){
+
+            /* console.log(search_data) */
+            axios_client.get('http://127.0.0.1:8000/api/search/' + search_data).then(response=>{
+                console.log(response.data);
+            }).catch(error =>{
+
+            })
+
+        }
+           
+        
+
         return {
-            product_lists,lists,cart_add,cart_lists,CartStore,deplete1
+            product_lists,lists,cart_add,cart_lists,CartStore,deplete1,btn_search,search_data
         }
     }
 

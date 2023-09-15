@@ -48,6 +48,10 @@ Route::get('/product/edit/{id}', [product_crud::class, 'index_update_product']);
 Route::delete('/delete/{id}', [product_crud::class, 'delete_product']);
 
 
+Route::get('/sample/{id}', [product_crud::class, 'show1']);
+
+
+
 
 /* STATISTICS AND NOTIFICATIONS*/
 Route::get('/stats', [stats::class, 'total_prod']);

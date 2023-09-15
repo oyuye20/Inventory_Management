@@ -44,7 +44,7 @@
   }
 
   #page-content-wrapper {
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(247, 255, 242);
   }
 
   /* .active {
@@ -60,7 +60,7 @@
     -moz-transition: margin 0.25s ease-out;
     -o-transition: margin 0.25s ease-out;
     transition: margin 0.25s ease-out;
-    background-color: rgb(33, 32, 32);
+    background-color: rgb(26, 69, 28);
     color: white;
   }
   

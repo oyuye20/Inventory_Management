@@ -21,14 +21,14 @@ class stats extends Controller
     }
 
 
-    /* REMINDER OF EXPIRED PRODUCTS */
+    /* REMINDER OF EXPIRED PRODUCTS WITH PAGINATION*/
     public function expiration(){
-        $p = products::whereDate('expiration_date', '<', now())->get();
+        return products::whereDate('expiration_date', '<', now())->paginate(5);
 
-        return response()->json([
+       /*  return response()->json([
             'expiration_date' => $p,
             'code' => 200
-        ]);
+        ]); */
 
     }
 

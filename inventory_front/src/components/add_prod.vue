@@ -19,11 +19,28 @@
     <div class="mb-3">
         <label for="" class="form-label">Product name</label>
         <input type="text" v-model="add_prod.product_name" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+
+        <div v-if="v$.product_name.$error">
+            <p class="text-danger fw-bold mt-1">{{ "Product name required" }}</p>
+        </div>
     </div>
 
     <div class="mb-3">
         <label for="" class="form-label">Manufacturer</label>
         <input type="text" v-model="add_prod.manufacturer" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+
+        <div v-if="v$.manufacturer.$error">
+            <p class="text-danger fw-bold mt-1">{{ "Manufacturer required" }}</p>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="" class="form-label">Price</label>
+        <input type="text" v-model="add_prod.price" @input="filter_input" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+
+        <div v-if="v$.price.$error">
+            <p class="text-danger fw-bold mt-1">{{ "Manufacturer required" }}</p>
+        </div>
     </div>
 
     <div class="mb-3">
@@ -31,28 +48,51 @@
         <textarea name="" v-model="add_prod.description" id="" class="form-control"></textarea>
     </div>
 
+    
+
     <div class="d-flex justify-content-center col-12">
 
         <div class="mb-3 col-5 mx-1">
             <label for="" class="form-label">Size</label>
             <input type="text" v-model="add_prod.size" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+
+            <div v-if="v$.size.$error">
+                <p class="text-danger fw-bold mt-1">{{ "Size required" }}</p>
+            </div>
         </div>
 
         <div class="mb-3 col-5 mx-1">
             <label for="" class="form-label">Stocks</label>
             <input type="text" v-model="add_prod.stocks" @input="filter_input" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+        
+            <div v-if="v$.stocks.$error">
+                <p class="text-danger fw-bold mt-1">{{ "Stocks required" }}</p>
+            </div>
+
+            
         </div>
+
+        
 
     </div>
 
     <div class="mb-3">
         <label for="" class="form-label">Production Date</label>
         <input type="date" v-model="add_prod.production_date" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+    
+        <div v-if="v$.production_date.$error">
+            <p class="text-danger fw-bold mt-1">{{ "Production Date required" }}</p>
+        </div>
+
     </div>
 
     <div class="mb-3">
         <label for="" class="form-label">Expiration Date</label>
         <input type="date" v-model="add_prod.expiration_date" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+    
+        <div v-if="v$.expiration_date.$error">
+            <p class="text-danger fw-bold mt-1">{{ "Expiration Date required" }}</p>
+        </div>
     </div>
 
     <div class="modal-footer">
@@ -63,9 +103,7 @@
 
     </div>       
 
-    <i class="fas fa-tachometer-alt me-2"></i>
-
-    <!-- data-bs-dismiss="modal" -->
+    
 
 </form>
 </div>
@@ -78,6 +116,7 @@ import { required, email } from '@vuelidate/validators'
 import axios_client from '../axios';
 import { useRouter } from "vue-router";
 import { ref } from 'vue'
+import { faker } from '@faker-js/faker';
 
 export default {
 
@@ -87,6 +126,18 @@ export default {
     const loading = ref(false);
 
     const add_prod  = reactive({
+        serial_number: '',
+        manufacturer: '',
+        product_name: '',
+        description : '',
+        size : '',
+        price : '',
+        stocks : '',
+        production_date : '',
+        expiration_date : '',
+    })
+
+    /* const add_prod  = reactive({
         serial_number:'',
         manufacturer: '',
         product_name: '',
@@ -95,11 +146,12 @@ export default {
         stocks : '',
         production_date : '',
         expiration_date : '',
-    })
+    }) */
 
     function filter_input(){
-            this.add_prod.serial_number = this.add_prod.serial_number.replace(/[^0-9]/g, "");
-            this.add_prod.stocks = this.add_prod.stocks.replace(/[^0-9]/g, "");
+        this.add_prod.serial_number = this.add_prod.serial_number.replace(/[^0-9]/g, "");
+        this.add_prod.stocks = this.add_prod.stocks.replace(/[^0-9]/g, "");
+        this.add_prod.price = this.add_prod.price.replace(/[^0-9]/g, "");
     }
 
 
@@ -107,7 +159,15 @@ export default {
    /*  const serial_number = ref('') */
 
     const rules  = {
-        serial_number: {required}
+        serial_number: {required},
+        manufacturer: {required},
+        product_name: {required},
+        description: {required},
+        size: {required},
+        price: {required},
+        stocks: {required},
+        production_date: {required},
+        expiration_date: {required},
     }
 
     const v$ = useVuelidate(rules, add_prod)
@@ -125,6 +185,7 @@ export default {
             formData.append('product_name', this.add_prod.product_name);
             formData.append('description', this.add_prod.description);
             formData.append('size', this.add_prod.size);
+            formData.append('price', this.add_prod.price);
             formData.append('stocks', this.add_prod.stocks);
             formData.append('production_date', this.add_prod.production_date);
             formData.append('expiration_date', this.add_prod.expiration_date);

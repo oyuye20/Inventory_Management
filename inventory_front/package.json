@@ -17,10 +17,13 @@
     "mdb-vue-ui-kit": "^4.0.0",
     "pinia": "^2.1.4",
     "vue": "^3.3.4",
+    "vue-barcode-reader": "^1.0.3",
+    "vue-qrcode-reader": "^5.3.4",
     "vue-router": "^4.2.4",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@vitejs/plugin-vue": "^4.2.3",
     "vite": "^4.4.6"
   }

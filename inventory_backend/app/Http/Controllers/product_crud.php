@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\products;
+use App\Models\transactions;
+use App\Models\customer_order;
 
 class product_crud extends Controller
 {
 
     /* READ ALL PRODUCT */
     public function index(){
-        return products::orderBy('id')->paginate(2);
+        return products::orderBy('id')->paginate(5);
         
         /* return response()->json([
             'products' => $product,
@@ -28,6 +30,7 @@ class product_crud extends Controller
         $product->description = $request->description;
         $product->size = $request->size;
         $product->stocks = $request->stocks;
+        $product->price = $request->price;
         $product->production_date = $request->production_date;
         $product->expiration_date = $request->expiration_date;
         $product->save();
@@ -64,10 +67,6 @@ class product_crud extends Controller
      
         
     }
-
-
-    
-
 
 
 

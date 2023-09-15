@@ -105,8 +105,10 @@
                                 </div>
                                 
                                 <span class="bg-light w-100 mb-2" style="height: 0.1rem;"></span>
-                                <a role="button" class="w-100 text-light fs-5 text-center">View more</a>
-        
+
+                                <router-link :to="{name: 'products'}">
+                                    <a role="button" class="w-100 text-light fs-5 text-center">View more</a>
+                                </router-link>
                             </div>
 
                         </div>
@@ -190,10 +192,9 @@
                                 <span class="bg-light w-100 mb-2" style="height: 0.1rem;"></span>
 
 
-                                <a role="button" class="w-100 text-light fs-5 text-center">View more</a>
-                                <!-- <router-link :to="{name: 'records'}">
-                                    
-                                </router-link> -->
+                                <router-link :to="{name: 'records'}">
+                                    <a role="button" class="w-100 text-light fs-5 text-center">View more</a>
+                                </router-link>
 
                             </div>
                         </div>

@@ -10,18 +10,16 @@ export const useCartStore = defineStore('CartStore', () =>{
     const prod = computed(() => list_product.value)
 
     const cart = ref([]);
+    const message_stock = ref("");
 
 
     const deplete = ref(false);
 
 
 
-
-
-
-    const add_cart = (id, product_name, stocks, price) => {
+    const add_cart = (product_id, product_name, stocks, price) => {
         const data_cart = {
-            id,
+            product_id,
             product_name,
             quantity: 1,
             price,
@@ -29,7 +27,7 @@ export const useCartStore = defineStore('CartStore', () =>{
             stocks
         }
 
-        const find_id = cart.value.find(e => e.id === data_cart.id)
+        const find_id = cart.value.find(e => e.product_id === data_cart.product_id)
 
 
         if(find_id)
@@ -37,16 +35,14 @@ export const useCartStore = defineStore('CartStore', () =>{
             if(find_id.quantity >= stocks)
             {
                 deplete.value = true
+                message_stock.value = "out of stocks"
             }
 
             else 
             {
                 find_id.quantity += 1
-                find_id.total = (find_id.price * find_id.quantity)
+                find_id.total = (find_id.price * find_id.quantity);
                 
-                /* let grand_total = (find_id.total +=find_id.total)
-
-                console.log(grand_total) */
             }
         }
 
@@ -74,6 +70,8 @@ export const useCartStore = defineStore('CartStore', () =>{
     const grand_total = computed(() => {
         return cart.value.reduce((num, prd) => (num + prd.price * prd.quantity) ,0)
     })
+    
+
 
 
     const remove_cart = (i) => {
@@ -83,14 +81,17 @@ export const useCartStore = defineStore('CartStore', () =>{
 
 
 
-    const increment = (i,stocks) => {
+    const increment = (i,stocks,price,product_id) => {
 
-        if(cart.value[i].quantity >= stocks){
+        const find_id = cart.value.find(e => e.product_id === product_id)
+
+        if(cart.value[i].quantity > stocks){
             deplete.value = true
         }
 
         else {
             cart.value[i].quantity += 1
+            find_id.total = (find_id.price * find_id.quantity);
         }
       
     }
@@ -98,15 +99,19 @@ export const useCartStore = defineStore('CartStore', () =>{
 
 
     
-    const decrement = (i) => {
+    const decrement = (i,product_id) => {
+        const find_id = cart.value.find(e => e.product_id === product_id)
+        
         cart.value[i].quantity -= 1
+        find_id.total -= (find_id.price * 1);
+        
 
         if(cart.value[i].quantity == 0) {
             cart.value.splice(i, 1)
         }
     }
 
-    return {getProduct,prod,add_cart,cart,grand_total,remove_cart,increment,decrement}
+    return {getProduct,prod,add_cart,cart,grand_total,remove_cart,increment,decrement,message_stock}
 
 
     /* state: () => ({

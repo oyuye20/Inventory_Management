@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\products;
 use App\Models\transactions;
-use App\Models\customer_order;
+use App\Models\customer_orders;
 
 class product_crud extends Controller
 {
@@ -21,8 +21,99 @@ class product_crud extends Controller
     }
 
 
+    public function sample(){
+        return transactions::with('customer_orders')->get();
+    }
+
+
+
+    public function sample2(Request $request){
+        
+        $r = json_decode($request->getContent(),true);
+
+         $transactions = transactions::create([
+            "customer_name" => "name",
+            "gross_total" => "name",
+            "discount" => "name",
+            "net_total" => "name",
+            "purchase_date" => "2023-11-10",
+            "status" => "name",
+        ]);
+
+
+        foreach($r as $values) {
+            customer_orders::create([
+                "transactions_id" => $transactions->id,
+                "product_name" => $values['product_name'],
+                "quantity" => $values['quantity'],
+                "price" => $values['price'],
+                "total" => $values['total'],
+            ]);
+         }
+
+
+        return response()->json([
+            'code' => 200
+        ]);
+
+
+        /* $transactions = new transactions();
+        $transactions->customer_name = $request->customer_name;
+        $transactions->gross_total = $request->gross_total;
+        $transactions->discount = $request->discount;
+        $transactions->net_total = $request->net_total;
+        $transactions->purchase_date = $request->purchase_date;
+        $transactions->status = $request->status;
+        $transactions->save(); */
+
+        /* $transactions = transactions::create([
+            "customer_name" => "name",
+            "gross_total" => "name",
+            "discount" => "name",
+            "net_total" => "name",
+            "purchase_date" => "2023-11-10",
+            "status" => "name",
+        ]); */
+
+
+        
+
+       
+       
+
+        
+
+       /*  $customer = $request->all();
+  
+        $user = transactions::create([
+            "customer_name" => "name",
+            "gross_total" => "name",
+            "discount" => "name",
+            "net_total" => "name",
+            "purchase_date" => "2023-11-10",
+            "status" => "name",
+        ]);
+
+
+
+            ;
+ */
+
+
+
+       /*  $test = json_decode($request->getContent(), true);
+ */
+
+        
+    }
+
+
+
+
+
     /* ADD NEW PRODUCT */
     public function add_product(Request $request){
+
         $product = new products();
         $product->serial_number = $request->serial_number;
         $product->manufacturer = $request->manufacturer;

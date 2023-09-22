@@ -1,8 +1,8 @@
-:root {
-   /*  --main-bg-color: #172d25;
+/* :root {
+    --main-bg-color: #172d25;
     --main-text-color: #009d63;
     --second-text-color: #bbbec5;
-    --second-bg-color: #c1efde; */
+    --second-bg-color: #c1efde;
   }
 
 
@@ -26,7 +26,7 @@
   .rounded-full {
     border-radius: 100%;
   }
-
+ */
  
   
   #wrapper {
@@ -44,24 +44,30 @@
   }
 
   #page-content-wrapper {
-    background-color: rgb(247, 255, 242);
+    background-color: rgb(244, 244, 244);
   }
 
-  /* .active {
-    background-color: red;
-  } */
+  .page-active {
+    background-color: rgb(138, 74, 74);
+  }
+
+  #sidebtn {
+    padding: 0.8rem;
+  }
+
 
 
   
   .sidebar_wrapper {
     min-height: 100vh;
-    margin-left: -15rem;
+    margin-left: -14rem;
+    width: 25rem;
     -webkit-transition: margin 0.25s ease-out;
     -moz-transition: margin 0.25s ease-out;
     -o-transition: margin 0.25s ease-out;
     transition: margin 0.25s ease-out;
-    background-color: rgb(26, 69, 28);
-    color: white;
+    background-color: white;
+    border-right: 1px solid rgb(216, 215, 215);
   }
   
 
@@ -100,19 +106,22 @@
   
   .list-group-item.active {
     background-color: transparent;
-    color: var(--main-text-color);
+/*     color: var(--main-text-color); */
     font-weight: bold;
     border: none;
   }
 
   a {
     text-decoration: none;
-    color: white;
   }
 
 
   #toggle_icon {
     display: none;
+  }
+
+  .col_text {
+    color: red;
   }
 
 
@@ -129,6 +138,7 @@
   @media (min-width: 768px) {
     .sidebar_wrapper {
       margin-left: 0;
+
     }
 
     /* #toggle_sidebar {
@@ -141,7 +151,7 @@
     }
   
     #wrapper.toggled .sidebar_wrapper {
-      margin-left: -15rem;
+      margin-left: -12rem;
     }
   }
 

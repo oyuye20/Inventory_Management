@@ -218,6 +218,9 @@ export default {
     }
 
 
+    
+
+
     onMounted(()=> {
        /*  getProduct() */
     })

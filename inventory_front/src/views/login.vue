@@ -3,7 +3,23 @@
     <div>
 
 
-        <div class="row container-fluid main p-3" @submit.prevent="login">
+        <div class="row container-fluid main d-flex" @submit.prevent="login">
+
+            <div class="row m-0 p-0">
+
+                <div class="col-6 p-3" style="height: 100vh;">
+
+
+
+                </div>
+
+
+                <div class="col-6 border border-light bg-light rounded-start-5 p-3" style="height: 100vh;">
+                 
+                </div>
+
+
+            </div>
           
             <form class="col-xxl-3 col-lg-6 col-md-8 col-sm-9 form">
 
@@ -17,17 +33,13 @@
 
             <div class="mb-3 username field">
               <input type="text" name="email"  v-model="user.email" id="email" class="form-control" placeholder="Username">
-            <!--   <div v-if="v$.email.$error" class="text-danger fw-bold mt-1">The email field is required</div> -->
+        
             </div>
 
-            
-            
-            <!-- v-model="user.email" -->
-
-        
+                
             <div class="mb-3 field">
               <input type="password" name="password" v-model="user.password" id="password" class="form-control" placeholder="Password" aria-describedby="helpId">
-             <!--  <div v-if="v$.password.$error" class="text-danger fw-bold mt-1">The password field is required</div> -->
+          
             </div>
 
             <button type="submit" :disabled="loading" class="btn btn-dark w-100 mb-3 submit-log">

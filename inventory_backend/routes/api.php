@@ -50,6 +50,10 @@ Route::delete('/delete/{id}', [product_crud::class, 'delete_product']);
 
 Route::get('/sample/{id}', [product_crud::class, 'show1']);
 
+Route::post('/sample2', [product_crud::class, 'sample2']);
+
+
+
 
 
 
@@ -65,3 +69,7 @@ Route::get('/exp_count', [stats::class, 'expired_count']);
 
 /* SEARCH AND FILTER */
 Route::get('/search/{data}', [filter::class, 'search']);
+
+
+
+Route::get('/relation', [product_crud::class, 'sample']);

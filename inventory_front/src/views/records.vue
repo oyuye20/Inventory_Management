@@ -4,44 +4,144 @@
         <!-- Sidebar -->
 
             <div class="sidebar_wrapper" :class ="{side: isSidebar}">
-                <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+                
+                <div class="sidebar-heading text-center py-4 fs-4 fw-bold d-flex justify-content-center ">
 
-                <i class="fas fa-warehouse me-2"></i>JR Amador</div>
+                    <div class="div d-flex justify-content-center align-items-center me-2">
+                        <i class="fas fa-circle-user fa-2x"></i>
+                    </div>
+                   
 
-                <div class="list-group list-group-flush my-3">
+                    <div class="div d-flex flex-column justify-content-end">
+                        Admin
 
-
-                    <router-link :to="{name: 'dashboard'}">
-                        <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
-                        <i class="bi bi-grid-fill me-2"></i>Dashboard</a>
-                    </router-link>
-
-                    <router-link :to="{name: 'products'}">
-                        <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
-                        <i class="bi bi-box-seam-fill me-2"></i>Products</a>
-                    </router-link>
-
-
-                    <router-link :to="{name: 'transaction'}">
-                        <a class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
-                        <i class="fas fa-receipt me-2"></i>Transactions</a>
-                    </router-link>
-                    
-
-                    <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
-                    <i class="bi bi-receipt me-2"></i>Sales History</a>
-
-                    <a class="list-group-item fs-5 list-group-item-action bg-transparent second-text active text-success">
-                    <i class="bi bi-database-fill me-2"></i>Records</a>
-
-                    <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
-                    <i class="bi bi-stack me-2"></i>Categories</a>
-
-                    
-                    <a @click="logout" class="list-group-item fs-5 list-group-item-action bg-transparent text-light fw-bold">
-                    <i class="bi bi-power me-2"></i>Logout</a>
+                        <span class="text-secondary fs-6">Administrator</span>
+                    </div>
 
                 </div>
+
+
+                <div class="list-group list-group-flush my-3 w-100 p-3">
+
+                
+                    <router-link :to="{name: 'dashboard'}">
+
+                        <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="bi bi-grid-fill me-3"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Dashboard</span>
+                        </div>
+
+                    </div>
+                        
+                    </router-link>
+
+
+
+                    <router-link :to="{name: 'products'}">
+                        
+                        <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="bi bi-box-seam-fill me-3"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Products</span>
+                        </div>
+
+                    </div>
+
+                    </router-link>
+
+                    
+                    
+
+                    <router-link :to="{name: 'transaction'}">
+
+                    <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2">
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="fas fa-receipt me-3 fa-lg"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Transactions</span>
+                        </div>
+
+                    </div>
+
+                    </router-link>
+
+
+
+
+                    <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="bi bi-receipt me-2"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Sales History</span>
+                        </div>
+
+                    </div>
+
+
+                    
+
+                
+                    <router-link :to="{name: 'records'}">
+                        <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" style="background-color: rgb(185, 232, 206); color: rgb(57, 164, 59);">
+
+                            <div class="div d-flex justify-content-center align-items-center">
+                                <i class="bi bi-database-fill me-2"></i>
+                            </div>
+                            
+                            <div class="div w-100">
+                                <span class="fs-4">Records</span>
+                            </div>
+
+                        </div>
+                    </router-link>
+
+
+
+                    <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="bi bi-stack me-2"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Categories</span>
+                        </div>
+
+                    </div>
+
+
+
+                    <a id="sidebtn" role="button" @click="logout"  class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="bi bi-power me-2"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Logout</span>
+                        </div>
+
+                    </a>
+
+              
+                </div>
+                
+
             </div>
      
 

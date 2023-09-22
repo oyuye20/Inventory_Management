@@ -23,7 +23,7 @@
 
     <div class="mb-3">
         <label for="" class="form-label">Manufacturer</label>
-        <input type="text" v-model="edit_prod_val.manufacturer" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+        <input type="text" inputmode="numeric" v-model="edit_prod_val.manufacturer" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
     </div>
 
     <div class="mb-3">
@@ -114,6 +114,8 @@ export default {
     /* UPDATE A PRODUCT */
     function update_Product (){
         loading.value = true;
+
+        /* console.log(edit_prod_val.value) */
 
         axios_client.put(`http://127.0.0.1:8000/api/update_product/` + route.params.id, edit_prod_val.value).then(response=>{
             loading.value = true;

@@ -3,7 +3,7 @@
     min-height: 100vh;
     justify-content: center;
     align-items: center;
-    background-color: rgb(73, 73, 73);
+    background-color: rgb(4, 180, 116);
     flex-direction: column;
     margin: 0;
     padding: 0;
@@ -13,6 +13,26 @@
     border: 1px solid rgb(142, 141, 141); 
     background-color: transparent;
 }
+
+.amador-text {
+    text-shadow: 2px 2px rgb(196, 194, 194);
+}
+
+.input-design {
+    border: 1px solid rgb(184, 183, 183);
+    font-size: 1.3rem;
+    border-radius: 0.8rem;
+}
+
+.icons_login {
+   
+}
+
+
+.line {
+    margin-bottom: 4rem;
+}
+
 
 
 

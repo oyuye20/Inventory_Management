@@ -4,42 +4,141 @@
         <!-- Sidebar -->
 
             <div class="sidebar_wrapper" :class ="{side: isSidebar}">
-                <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
-                    <i class="fas fa-warehouse fa-1x me-2"></i>JR Amador</div>
-                <div class="list-group list-group-flush my-3">
 
-                    <a class="list-group-item fs-5 list-group-item-action bg-transparent second-text active text-success">
-                    <i class="bi bi-grid-fill me-2"></i>Dashboard</a>
+
+                <div class="sidebar-heading text-center py-4 fs-4 fw-bold d-flex justify-content-center">
+
+                    <div class="div d-flex justify-content-center align-items-center me-2">
+                        <i class="fas fa-circle-user fa-2x"></i>
+                    </div>
+                   
+
+                    <div class="div d-flex flex-column justify-content-end">
+                        Admin
+
+                        <span class="text-secondary fs-6">Administrator</span>
+                    </div>
+
+                </div>
+
+                
+
+
+                <div class="list-group list-group-flush my-3 w-100 p-3">
+
+                    <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5" style="background-color: rgb(185, 232, 206); color: rgb(57, 164, 59);">
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="bi bi-grid-fill me-3"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Dashboard</span>
+                        </div>
+
+                    </div>
+
 
 
                     <router-link :to="{name: 'products'}">
-                        <a class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
-                    <i class="bi bi-box-seam-fill me-2"></i>Products</a>
+                        
+                        <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="bi bi-box-seam-fill me-3"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Products</span>
+                        </div>
+
+                    </div>
+
                     </router-link>
+
+                    
+                    
 
                     <router-link :to="{name: 'transaction'}">
-                        <a class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
-                        <i class="fas fa-receipt me-2"></i>Transactions</a>
-                    </router-link>
-  
 
-                    <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
-                    <i class="bi bi-receipt me-2"></i>Sales History</a>
+                    <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="fas fa-receipt me-3 fa-lg"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Transactions</span>
+                        </div>
+
+                    </div>
+
+                    </router-link>
+
+
+
+
+                    <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="bi bi-receipt me-2"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Sales History</span>
+                        </div>
+
+                    </div>
+
+
+                    
 
                 
                     <router-link :to="{name: 'records'}">
-                        <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
-                        <i class="bi bi-database-fill me-2"></i>Records</a>
+                        <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                            <div class="div d-flex justify-content-center align-items-center">
+                                <i class="bi bi-database-fill me-2"></i>
+                            </div>
+                            
+                            <div class="div w-100">
+                                <span class="fs-4">Records</span>
+                            </div>
+
+                        </div>
                     </router-link>
 
-                    
-                    <a href="#" class="list-group-item fs-5 list-group-item-action bg-transparent second-text active">
-                    <i class="bi bi-stack me-2"></i>Categories</a>
 
-                    
-                    <a role="button" @click="logout" class="list-group-item fs-5 list-group-item-action text-light bg-transparent fw-bold">
-                    <i class="bi bi-power me-2"></i>Logout</a>
 
+                    <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="bi bi-stack me-2"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Categories</span>
+                        </div>
+
+                    </div>
+
+
+
+                    <a id="sidebtn" role="button" @click="logout"  class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="bi bi-power me-2"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Logout</span>
+                        </div>
+
+                    </a>
+
+
+
+                
                 </div>
             </div>
      
@@ -50,15 +149,27 @@
 
         <div id="page-content-wrapper">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
-                <div class="d-flex align-items-center">
+            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4 d-flex" >
+
+                
+                <div class="d-flex justify-content-between w-100">
 
                     <a v-on:click="isSidebar =! isSidebar" role="button" id="toggle_icon"><i class="fas fa-bars me-3 fa-2x"></i></a>
                     
-                    <h2 class="fs-2 m-0">Dashboard</h2>
+
+                    <h2 class="fs-5 fw-bold">Welcome to Inventory Management</h2>
+                    
+
+                    <div class="div">
+    
+                        <span class="fs-5 h-100 me-3">{{ dateTime }}</span>   
+                        <a role="button" class="fw-bold text-dark fs-5"><i class="bi bi-power me-2"></i>Logout</a>
+                    </div>
+
+                    
                 </div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -78,7 +189,7 @@
                             </ul>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </nav>
 
             <div class="container-fluid px-4">
@@ -86,85 +197,73 @@
 
 
                 <!-- CARD FOR DASHBOARD -->
-                <div class="row g-3 my-2">
+                <div class="row g-3 my-2 d-flex justify-content-center">
 
-                    <div class="col-xl-3 lg-10">
+                    <div class="col-xxl-2 col-xl-4">
 
                         <div class="d-flex flex-column">
 
-                            <div class="p-3 shadow-sm d-flex justify-content-around flex-column align-items-center rounded" style="height: 13rem; background-color: rgb(62, 151, 73);">
+                            <div class="p-3 shadow-sm d-flex justify-content-around flex-column align-items-center rounded-5" style="height: 12rem; background-color: rgb(237, 106, 219);">
 
-                                <div class="p-3 d-flex justify-content-around align-items-center rounded w-100">
+                                <div class="p-3 d-flex rounded-5 w-100">
 
                                     <div>
-                                        <h3 class="fs-2 text-light">{{product_total}}</h3>
-                                        <p class="fs-5 text-light">Products</p>
+                                        <h3 class="fs-5 text-light mb-3">Products</h3>
+                                        <p class="fs-2 text-light fw-bold">{{ product_total }}</p>
+                                        
                                     </div>
-                                    <i class="fas fa-layer-group fs-1 primary-text text-light p-3"></i>
 
                                 </div>
-                                
-                                <span class="bg-light w-100 mb-2" style="height: 0.1rem;"></span>
+                
 
-                                <router-link :to="{name: 'products'}">
-                                    <a role="button" class="w-100 text-light fs-5 text-center">View more</a>
-                                </router-link>
                             </div>
-
                         </div>
-             
                     </div>
+
+
+
+                    <div class="col-xxl-2 col-xl-4">
+
+                        <div class="d-flex flex-column">
+
+                            <div class="p-3 shadow-sm d-flex justify-content-around flex-column align-items-center rounded-5" style="height: 12rem; background-color: rgb(192, 64, 207);">
+
+                                <div class="p-3 d-flex rounded-5 w-100">
+
+                                    <div>
+                                        <h3 class="fs-5 text-light mb-3">Total of Sales</h3>
+                                        <p class="fs-2 text-light fw-bold">123123</p>
+                                        
+                                    </div>
+
+                                </div>
+                
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    
 
          
 
-                    <div class="col-xl-3 lg-10">
+                    <div class="col-xxl-2 col-xl-4">
 
                         <div class="d-flex flex-column">
 
-                            <div class="p-3 bg-primary shadow-sm d-flex justify-content-around flex-column align-items-center rounded" style="height: 13rem;">
+                            <div class="p-3 shadow-sm d-flex justify-content-around flex-column align-items-center rounded-5" style="height: 12rem; background-color: rgb(55, 161, 197);">
 
-                                <div class="p-3 d-flex justify-content-around align-items-center rounded w-100">
-
-                                    <div>
-                                        <h3 class="fs-2 text-light">{{num_total_stock}}</h3>
-                                        <p class="fs-5 text-light">Stock on hand</p>
-                                    </div>
-                                    <i class="fas fa-box fs-1 secondary-bg p-3 text-light"></i>
-
-                                </div>
-                                
-                                <span class="bg-light w-100 mb-2" style="height: 0.1rem;"></span>
-                                <a role="button" class="w-100 text-light fs-5 text-center">View more</a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-xl-3 lg-10">
-
-                        <div class="d-flex flex-column">
-
-                            <div class="p-3 bg-danger shadow-sm d-flex justify-content-around flex-column align-items-center rounded" style="height: 13rem;">
-
-                                <div class="p-3 d-flex justify-content-around align-items-center rounded w-100">
+                                <div class="p-3 d-flex rounded-5 w-100">
 
                                     <div>
-                                        <h3 class="fs-2 text-light">{{crit_stocks1}}</h3>
-                                        <p class="fs-5 text-light">Critical Stocks</p>
+                                        <h3 class="fs-5 text-light mb-3">Stocks on hand</h3>
+                                        <p class="fs-2 text-light fw-bold">{{ num_total_stock }}</p>
+                                        
                                     </div>
-                                    <i class="fas fs-1 fa-triangle-exclamation secondary-bg p-3 text-light"></i>
 
                                 </div>
-                                
-                                <span class="bg-light w-100 mb-2" style="height: 0.1rem;"></span>
-
-
-                                <router-link :to="{name: 'records'}">
-                                    <a role="button" class="w-100 text-light fs-5 text-center">View more</a>
-                                </router-link>
+                
 
                             </div>
                         </div>
@@ -172,29 +271,46 @@
 
 
 
-                    <div class="col-xl-3 lg-10">
+
+                    <div class="col-xxl-2 col-xl-4">
 
                         <div class="d-flex flex-column">
 
-                            <div class="p-3 shadow-sm d-flex justify-content-around flex-column align-items-center rounded" style="height: 13rem; background-color: rgb(140, 42, 42);">
+                            <div class="p-3 shadow-sm d-flex justify-content-around flex-column align-items-center rounded-5" style="height: 12rem; background-color: rgb(47, 165, 151);">
 
-                                <div class="p-3 d-flex justify-content-around align-items-center rounded w-100">
+                                <div class="p-3 d-flex rounded-5 w-100">
 
                                     <div>
-                                        <h3 class="fs-2 text-light">{{ exp_list_count }}</h3>
-                                        <p class="fs-5 text-light">Expired Products</p>
+                                        <h3 class="fs-5 text-light mb-3">Critical Stocks</h3>
+                                        <p class="fs-2 text-light fw-bold">{{ crit_stocks1 }}</p>
+                                        
                                     </div>
-                                    <i class=""></i>
-                                    <i class="fas fs-1 far fa-calendar-xmark secondary-bg p-3 text-light"></i>
 
                                 </div>
-                                
-                                <span class="bg-light w-100 mb-2" style="height: 0.1rem;"></span>
+                
+
+                            </div>
+                        </div>
+                    </div>
 
 
-                                <router-link :to="{name: 'records'}">
-                                    <a role="button" class="w-100 text-light fs-5 text-center">View more</a>
-                                </router-link>
+
+                    <div class="col-xxl-2 col-xl-4">
+
+                        <div class="d-flex flex-column">
+
+                            <div class="p-3 shadow-sm d-flex justify-content-around flex-column align-items-center rounded-5" style="height: 12rem; background-color: rgb(215, 184, 82);">
+
+                                <div class="p-3 d-flex rounded-5 w-100">
+
+                                    <div>
+                                        <h3 class="fs-5 text-light mb-3">Expired Products</h3>
+                                        <p class="fs-2 text-light fw-bold">{{ exp_list_count }}</p>
+                                        
+                                    </div>
+
+                                </div>
+                
 
                             </div>
                         </div>
@@ -341,6 +457,19 @@ export default {
         const store = useStore();
         const router = useRouter();
 
+        const timestamp = ref();
+
+
+
+        const today = new Date();
+        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        const dateTime = date +' '+ time;
+
+
+
+
+
         watchEffect((onvalidate) =>{
         search_box.value
 
@@ -479,7 +608,7 @@ export default {
             user: computed(() => store.state.user.data)
             ,product_lists,getProduct,close,expired_prod,expired_lists,low_stocks
             ,stock_lists,search_box,typing,product_total,low_stocks,total_products,stock_total
-            ,num_total_stock,crit_stocks1,crit_stocks,logout,exp_count_f,exp_list_count,isSidebar
+            ,num_total_stock,crit_stocks1,crit_stocks,logout,exp_count_f,exp_list_count,isSidebar,dateTime
         }
 
 

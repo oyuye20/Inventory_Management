@@ -18,17 +18,17 @@ class product_lists extends Seeder
     {
 
 
-        for($i = 1; $i <=50; $i++){
+        for($i = 1; $i <=5; $i++){
             products::create([
                 'serial_number'=>fake()->ean13(),
-                'manufacturer'=>fake()->company(),
+                'manufacturer'=>fake()->randomElement(['Pedigree','Sarimanok','Whiskas']),
                 'product_name'=>"product name $i",
                 'description'=>"description $i",
-                'price'=>(rand(00,1000)),
+                'price'=>fake()->randomFloat(2, 10, 3000),
                 'size'=>(rand(00,1000)),
                 'stocks'=>(rand(00,1000)),
-                'production_date'=>fake()->dateTime(),
-                'expiration_date'=>fake()->dateTime(),
+                'production_date'=>fake()->dateTimeBetween('-1 year' ,'+2 year'),
+                'expiration_date'=>fake()->dateTimeBetween('+1 year' ,'+2 year'),
             ]);
         }
        

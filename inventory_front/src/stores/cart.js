@@ -8,16 +8,21 @@ export const useCartStore = defineStore('CartStore', () =>{
     const list_product = ref([]);
 
     const prod = computed(() => list_product.value)
+    const cart2 = computed(() => cart.value)
 
     const cart = ref([]);
     const message_stock = ref("");
 
 
+
+    const message2 = computed(() => message_stock.value)
+    const deplete2 = computed(() => deplete.value)
+
+
     const deplete = ref(false);
 
 
-
-    const add_cart = (product_id, product_name, stocks, price) => {
+    const add_cart = (product_id, product_name, stocks, price,quantity) => {
         const data_cart = {
             product_id,
             product_name,
@@ -30,25 +35,26 @@ export const useCartStore = defineStore('CartStore', () =>{
         const find_id = cart.value.find(e => e.product_id === data_cart.product_id)
 
 
+
         if(find_id)
         {
             if(find_id.quantity >= stocks)
             {
                 deplete.value = true
-                message_stock.value = "out of stocks"
+                message_stock.value =  "The " + find_id.product_name + " is out of stock"
             }
 
             else 
             {
                 find_id.quantity += 1
                 find_id.total = (find_id.price * find_id.quantity);
-                
+        
             }
         }
 
         else 
         {
-            cart.value.push(data_cart)
+            cart.value.push(data_cart)       
         }
 
         
@@ -76,7 +82,25 @@ export const useCartStore = defineStore('CartStore', () =>{
 
     const remove_cart = (i) => {
         cart.value.splice(i, 1)
+        deplete.value = false
+        message_stock.value = ''
     }
+
+
+    const clear_cart = () => {
+        cart.value = [];
+        deplete.value = false
+        message_stock.value = ''
+    }
+
+
+    const close_msg_stock = () => {
+        deplete.value = false
+        message_stock.value = ''
+    }
+
+
+
 
 
 
@@ -85,16 +109,20 @@ export const useCartStore = defineStore('CartStore', () =>{
 
         const find_id = cart.value.find(e => e.product_id === product_id)
 
-        if(cart.value[i].quantity > stocks){
+        if(cart.value[i].quantity >= stocks){
             deplete.value = true
+            message_stock.value =  "The " + find_id.product_name + " is out of stock"
         }
 
         else {
             cart.value[i].quantity += 1
             find_id.total = (find_id.price * find_id.quantity);
+
         }
       
     }
+
+
 
 
 
@@ -105,13 +133,17 @@ export const useCartStore = defineStore('CartStore', () =>{
         cart.value[i].quantity -= 1
         find_id.total -= (find_id.price * 1);
         
+        deplete.value = false
+        message_stock.value = ''
 
         if(cart.value[i].quantity == 0) {
             cart.value.splice(i, 1)
+            deplete.value = false
+            message_stock.value = ''
         }
     }
 
-    return {getProduct,prod,add_cart,cart,grand_total,remove_cart,increment,decrement,message_stock}
+    return {getProduct,prod,add_cart,cart,grand_total,remove_cart,increment,decrement,message_stock,clear_cart,cart2,message2,close_msg_stock}
 
 
     /* state: () => ({

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\products;
-
+use App\Models\transactions;
+use Illuminate\Support\Facades\DB;
 
 class stats extends Controller
 {
@@ -85,8 +86,29 @@ class stats extends Controller
     }
 
 
+    /* TOTAL SALES ITEMS */
+
+    public function total_sales(){
+        $sum = DB::table('transactions')->sum('net_total');
+
+        return response()->json([
+            'total_sales' => $sum,
+            'code' => 200
+        ]);
+    }
+
+    public function sold_items(){
+        $sold = DB::table('customer_orders')->groupBy('product_name')
+        ->selectRaw('product_name, sum(quantity) as sold_items')
+        ->orderBy('quantity', 'ASC')
+        ->get();
 
 
+        return response()->json([
+            'sold' => $sold,
+            'code' => 200
+        ]);
+    }
 
 
 }

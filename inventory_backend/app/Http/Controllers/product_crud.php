@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\products;
 use App\Models\transactions;
 use App\Models\customer_orders;
+use Illuminate\Support\Facades\DB;
 
 class product_crud extends Controller
 {
@@ -26,84 +27,51 @@ class product_crud extends Controller
     }
 
 
+    /* CHECKOUT */
+    public function checkout(Request $request){      
+        $r = json_decode($request->input("cart"),true);
 
-    public function sample2(Request $request){
-        
-        $r = json_decode($request->getContent(),true);
+        $s = $request->input("grand_total");
+        $converted = substr($s,3);
+        $final_total = str_replace(',', '', $converted);
 
-         $transactions = transactions::create([
-            "customer_name" => "name",
-            "gross_total" => "name",
-            "discount" => "name",
-            "net_total" => "name",
-            "purchase_date" => "2023-11-10",
-            "status" => "name",
+
+        $transactions = transactions::create([ 
+            "customer_name" => $request->input("customer_name"),
+            "gross_total" => $request->input("sub_total"),
+            "discount" => "0",
+            "net_total" => $final_total,
+            "purchase_date" => $request->input("purchase_date"),
+            "status" => "Paid",
         ]);
 
 
         foreach($r as $values) {
-            customer_orders::create([
+
+             customer_orders::create([
                 "transactions_id" => $transactions->id,
                 "product_name" => $values['product_name'],
                 "quantity" => $values['quantity'],
                 "price" => $values['price'],
                 "total" => $values['total'],
             ]);
-         }
+
+
+            $stock_update = $values['stocks'] - $values['quantity'];
+
+            $update_quantity = DB::table('products')
+            ->where('id', $values['product_id'])
+            ->update(['stocks' => $stock_update]);
+            
+         } 
+
+        
+
 
 
         return response()->json([
             'code' => 200
         ]);
-
-
-        /* $transactions = new transactions();
-        $transactions->customer_name = $request->customer_name;
-        $transactions->gross_total = $request->gross_total;
-        $transactions->discount = $request->discount;
-        $transactions->net_total = $request->net_total;
-        $transactions->purchase_date = $request->purchase_date;
-        $transactions->status = $request->status;
-        $transactions->save(); */
-
-        /* $transactions = transactions::create([
-            "customer_name" => "name",
-            "gross_total" => "name",
-            "discount" => "name",
-            "net_total" => "name",
-            "purchase_date" => "2023-11-10",
-            "status" => "name",
-        ]); */
-
-
-        
-
-       
-       
-
-        
-
-       /*  $customer = $request->all();
-  
-        $user = transactions::create([
-            "customer_name" => "name",
-            "gross_total" => "name",
-            "discount" => "name",
-            "net_total" => "name",
-            "purchase_date" => "2023-11-10",
-            "status" => "name",
-        ]);
-
-
-
-            ;
- */
-
-
-
-       /*  $test = json_decode($request->getContent(), true);
- */
-
         
     }
 

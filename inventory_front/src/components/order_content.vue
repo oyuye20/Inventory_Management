@@ -1,9 +1,21 @@
 <template>
     <div class="row gx-2 mt-3">
 
+        <div v-if="show_alert" class="alert alert-success alert-dismissible fade show" role="alert">
+            Ordered Successfully
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div v-if="msg" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-circle-exclamation me-2"></i><span class="fs-6 fw-bold">{{ msg }}</span>
+            <button type="button" class="btn-close" @click="CartStore.close_msg_stock()"></button>
+        </div>
+
+
+
         <div class="col-xl-7 mt-3">
             <div class="bg-light w-100">
-                <h4 class="p-3 text-light" style="background-color: rgb(69, 115, 26);"><i class="fas fa-cash-register me-2"></i>Transaction</h4>
+                <h4 class="p-3 text-light" style="background-color: rgb(4, 180, 116);"><i class="fas fa-cash-register me-2"></i>Transaction</h4>
 
 
                 <div class="d-flex justify-content-between p-3">
@@ -11,20 +23,30 @@
                     <h4 class="text-success fw-bold">1,000 Pesos</h4> -->
                     <h5>Transaction ID: 123213123123</h5>
                     <h5>Transaction Date: Saturday, July 22, 2023</h5>
+
+    
                 </div>
 
 
+                <div class="div mt-3 p-3">
+                    <input type="text" class="form-control mb-3" required v-model="customer_name" placeholder="Customer Name">
+                </div>
+
+              
+                
+
+
              
-                <div class="table-responsive mt-3 mb-3" style="overflow: auto; height: 20rem;">
+                <div class="table-responsive mt-3 mb-3" style="overflow: auto; height: 20rem; ">
                     <table class="table table-hover table-borderless text-center" >
 
-                        <thead class="table-dark" style="position: sticky;">
-                            <tr>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Action</th>
+                        <thead style="background-color: rgb(4, 180, 116);">
+                            <tr c>
+                            <th scope="col" class="fw-bold">Product Name</th>
+                            <th scope="col" class="fw-bold">Quantity</th>
+                            <th scope="col" class="fw-bold">Price</th>
+                            <th scope="col" class="fw-bold">Total</th>
+                            <th scope="col" class="fw-bold">Action</th>
                             </tr>
                         </thead>
 
@@ -57,20 +79,23 @@
 
 
                 <form @submit.prevent="checkout()">
-                    <div class="p-3 bg-dark mt-3">
+                    <div class="p-3 mt-3" style="background-color: rgb(176, 230, 209);">
 
-                        <h4 class="text-light"><i class="fas fa-coins me-2 m-2"></i>
-                            Sub Total: ₱ {{CartStore.grand_total.toLocaleString('en-US')}}
+                        <h4 class="text-dark"><i class="fas fa-coins me-2 m-2 text-success"></i>
+                            Sub Total: {{Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(CartStore.grand_total)}}
                         </h4>
 
-                        <h4 class="text-light"><i class="fas fa-coins me-2 m-2"></i>
-                            VAT(12%): ₱ {{(CartStore.grand_total * 0.12).toLocaleString('en-US')}}
+                        <h4 class="text-dark"><i class="fas fa-coins me-2 m-2 text-success"></i>
+                            VAT(12%): {{
+                                Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format((CartStore.grand_total * 0.12))                           
+                            }}
                         </h4>
 
-                        <h4 class="text-light"><i class="fas fa-coins me-2 m-2"></i>
-                            Grand Total: ₱ {{(CartStore.grand_total + (CartStore.grand_total * .12)).toLocaleString('en-US')}}
+                        <h4 class="text-dark"><i class="fas fa-coins me-2 m-2 text-success"></i>
+                            Grand Total: {{
+                                Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format((CartStore.grand_total + (CartStore.grand_total * .12)))                                                    
+                                }}
                         </h4>
-
 
                         <button type="submit" class="btn btn-success me-2 m-2">Check Out</button>
 
@@ -101,7 +126,7 @@
                         </div>
                         
 
-
+                    
                         <div class="col-xl-6 p-2" v-for="product in lists.data" :key="product.id">
                  
                             <div class="p-3">
@@ -112,11 +137,19 @@
                                     <p>{{product.stocks}}</p>
                                     <p>{{product.price}}</p>
                                 </div>
-                    
-                                <button :disabled="deplete1" 
-                                @click="cart_add.add_cart(product.id,product.product_name,product.stocks,product.price)" 
-                                class="btn btn-primary w-100 mt-3">add</button>
-                                <p>{{ msg }}</p>
+
+
+
+                                <div v-if="product.stocks == 0" class="div">
+                                    <button disabled class="btn btn-danger w-100 mt-3 fw-bold">Sold out</button>
+                                </div>
+
+                                <div v-else class="div">
+                                    <button :disabled="deplete1" 
+                                    @click="cart_add.add_cart(product.id,product.product_name,product.stocks,product.price)" 
+                                    class="btn btn-primary w-100 mt-3">add</button>
+                                </div>
+
 
                             </div>
 
@@ -124,6 +157,8 @@
 
                         
                     </div>
+
+                    
 
                     
                     <div class="w-100 d-flex justify-content-center mt-3">
@@ -160,29 +195,74 @@ export default{
     setup(){
         let product_lists = ref([]);
         let search_data = ref([]);
-
- 
         const CartStore = useCartStore()
         const cart_add = useCartStore()
-        const lists = computed(()=> CartStore.prod)
-        const cart_lists = CartStore.cart
+        const customer_name = ref();
+        const cart_order = CartStore.cart
 
-        const deplete1 = CartStore.deplete     
-        const msg = CartStore.message_stock
+        const show_alert = ref(false);
+
+
+        const lists = computed(()=> CartStore.prod)
+        const cart_lists = computed(()=> CartStore.cart2)
+        const msg = computed(()=> CartStore.message2)
+        const deplete1 = computed(()=> CartStore.deplete2)
 
         
-        onMounted(()=> {
 
+
+    
+        onMounted(()=> {
+         CartStore.getProduct()
         })
 
 
         function checkout(){
-            axios_client.post("http://127.0.0.1:8000/api/sample2", cart_lists).then(response=>{
-                console.log(response.data)
+   
+            if(CartStore.cart.length == 0){
+                alert('Please add items')
+            }
 
-            }).catch(error =>{
-                console.log(error.response)
-            })
+            else if (customer_name.value == null){
+                alert('Please Enter Name')
+            }
+
+            else{
+                const today = new Date();
+                const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                const dateTime = date +' '+ time;
+
+
+                
+                let form = new FormData();
+                form.append('sub_total', Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format((CartStore.grand_total)))
+                form.append('customer_name', customer_name.value)
+                form.append('vat', Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(CartStore.grand_total * 0.12))
+
+
+                form.append('grand_total',  
+                Intl.NumberFormat('en-PH', 
+                { style: 'currency', currency: 'PHP' }).format((CartStore.grand_total + (CartStore.grand_total * .12))))
+
+
+
+                form.append('cart', JSON.stringify(cart_order))
+                form.append('purchase_date', dateTime)
+
+
+                axios_client.post("http://127.0.0.1:8000/api/checkout", form).then(response=>{
+                    console.log(response.data)     
+                    customer_name.value = ''
+                    show_alert.value = true
+                    CartStore.clear_cart()
+                    CartStore.getProduct()
+                }).catch(error =>{
+                    console.log(error.response)
+                })
+
+                
+            }           
         }
 
 
@@ -199,17 +279,10 @@ export default{
            
         
         return {
-            msg,product_lists,lists,cart_add,cart_lists,CartStore,deplete1,btn_search,search_data,checkout
+            msg,product_lists,lists,cart_add,cart_lists,CartStore,
+            deplete1,btn_search,search_data,checkout,customer_name,
+            show_alert,cart_order
         }
     }
 }
-
-
-
-
-
-
-
-
-
 </script>

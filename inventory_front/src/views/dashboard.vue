@@ -199,7 +199,7 @@
                 <!-- CARD FOR DASHBOARD -->
                 <div class="row g-3 my-2 d-flex justify-content-center">
 
-                    <div class="col-xxl-2 col-xl-4">
+                    <div class="col-xxl-3 col-xl-4">
 
                         <div class="d-flex flex-column">
 
@@ -222,7 +222,7 @@
 
 
 
-                    <div class="col-xxl-2 col-xl-4">
+                    <div class="col-xxl-3 col-xl-4">
 
                         <div class="d-flex flex-column">
 
@@ -232,7 +232,7 @@
 
                                     <div>
                                         <h3 class="fs-5 text-light mb-3">Total of Sales</h3>
-                                        <p class="fs-2 text-light fw-bold">123123</p>
+                                        <p class="fs-2 text-light fw-bold">{{Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format((sale_total))}}</p>
                                         
                                     </div>
 
@@ -248,7 +248,7 @@
 
          
 
-                    <div class="col-xxl-2 col-xl-4">
+                    <div class="col-xxl-3 col-xl-4">
 
                         <div class="d-flex flex-column">
 
@@ -272,7 +272,7 @@
 
 
 
-                    <div class="col-xxl-2 col-xl-4">
+                    <div class="col-xxl-3 col-xl-4">
 
                         <div class="d-flex flex-column">
 
@@ -295,7 +295,7 @@
 
 
 
-                    <div class="col-xxl-2 col-xl-4">
+                    <div class="col-xxl-3 col-xl-4">
 
                         <div class="d-flex flex-column">
 
@@ -321,96 +321,9 @@
 
 
 
-                </div>
-
-                <!-- END OF CARD FOR DASHBOARD-->
-
-
-
-                <!-- <div class="table-responsive">
-                    <h4 class="mt-3">Product Lists</h4>
-
-                    <h4 v-if="typing" class="w-100 text-center d-flex justify-content-center align-items-center loading">Loading....</h4>
-
-                    <table v-else class="table table-hover table-borderless text-center">
-                    <thead class="table-dark">
-                        <tr>
-                        <th scope="col">Serial Number</th>
-                        <th scope="col">Manufacturer</th>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Size Name</th>
-                        <th scope="col">Stock</th>
-                        <th scope="col">Date of Production</th>
-                        <th scope="col">Expiration Date</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody v-for="product in product_lists" :key="product.id">
-                        <tr>
-                            <td hidden>{{product.id}}</td>
-                            <td>{{product.serial_number}}</td>
-                            <td>{{product.manufacturer}}</td>
-                            <td>{{product.product_name}}</td>
-                            <td>{{product.description}}</td>
-                            <td>{{product.size}}</td>
-                            <td>{{product.stocks}}</td>
-                            <td>{{product.production_date}}</td>
-                            <td>{{product.expiration_date}}</td>
-                            <td>hello</td>
-
-                            <td class="m-3">
-                                <button class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
-                                <button type="button" class="btn btn-danger mx-1" @click.prevent="del_prod(product.id)"><i class="bi bi-trash3-fill"></i></button>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                    </table>
-                </div> -->
-
-            
-
-   
-            <!-- <h4 class="mb-3">Expired Product</h4>
-
-            <div class="container" v-for="product in expired_lists" :key="product.id">
-
-                <div class="row mb-3">
-                    <div class="col-12 p-2 d-flex justify-content-center shadow bg-light">
-
-                        <div class="col-1 d-flex justify-content-center me-2">
-                            <i class="bi bi-exclamation-triangle-fill" style="font-size: 3rem; color: rgb(183, 35, 35);"></i>
-                        </div>
-
-                        <div class="col-11">
-                            <p class="text-left text-dark fs-5 h-100 w-100 d-flex align-items-center">
-                            The {{ product.product_name }} was already expired ({{ product.expiration_date }})</p>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div> -->
-     
-        
-            <!-- <h4 class="mb-3">Low stocks</h4>
-
-            <div v-for="product in stock_lists" :key="product.id" class="container-fluid">
-                <p class="bg-danger text-center text-light fs-5 p-2 rounded-2"><i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    The {{ product.product_name }} on low stock ({{ product.stocks }})</p>
-            </div> -->
-
-
+                </div>           
             </div>
         </div>
-
-
-       
-
-
     </div>
     <!-- /#page-content-wrapper -->
 
@@ -446,6 +359,7 @@ export default {
         let product_total = ref('');
         let num_total_stock = ref('');
         let crit_stocks1 = ref('');
+        let sale_total = ref('');
         const isSidebar = ref(false);
 
 
@@ -549,6 +463,16 @@ export default {
         }
 
 
+        /* TOTAL SALES */
+        const total_sales = async() => {
+            axios_client.get('http://127.0.0.1:8000/api/sales').then(response=>{
+                sale_total.value = response.data.total_sales
+            }).catch(error =>{
+
+            })
+        }
+
+
 
 
 
@@ -595,6 +519,7 @@ export default {
             stock_total()
             crit_stocks()
             exp_count_f()
+            total_sales()
         })
 
         function logout(){
@@ -608,7 +533,7 @@ export default {
             user: computed(() => store.state.user.data)
             ,product_lists,getProduct,close,expired_prod,expired_lists,low_stocks
             ,stock_lists,search_box,typing,product_total,low_stocks,total_products,stock_total
-            ,num_total_stock,crit_stocks1,crit_stocks,logout,exp_count_f,exp_list_count,isSidebar,dateTime
+            ,num_total_stock,crit_stocks1,crit_stocks,logout,exp_count_f,exp_list_count,isSidebar,dateTime,sale_total,total_sales
         }
 
 

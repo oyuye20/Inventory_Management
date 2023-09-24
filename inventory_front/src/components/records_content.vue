@@ -82,7 +82,52 @@
 
                 <div class="tab-pane fade show active" id="pills-sold" role="tabpanel" aria-labelledby="pills-sold-tab" tabindex="0">
                     
-                Sold Items
+                <h4 class="mt-3 w-100 bg-light p-3"><i class="fas fa-database me-2"></i>Product Lists</h4>
+                <div class="table-responsive">
+                    
+                    <table class="table table-hover table-borderless text-center">
+                        <thead class="table-dark">
+                            <tr>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Total of sold items</th>
+
+                            <!-- <th>Actions</th> -->
+                            </tr>
+                        </thead>
+
+                    <tbody v-for="sold in items_sold" class="">
+                        <tr>
+                            <td class="fs-5">{{sold.product_name}}</td>
+                            <td class="fs-5">{{sold.sold_items}}</td>
+      
+
+
+                            <!-- <td class="m-3">
+                                <button class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
+                                <button type="button" class="btn btn-danger mx-1 mt-2" @click.prevent="del_prod(product.id)"><i class="bi bi-trash3-fill"></i></button>
+                            </td> -->
+                        </tr>
+
+                    </tbody>
+                    </table>
+
+
+                    <div class="d-flex justify-content-end align-items-center" >
+                        <Bootstrap5Pagination :limit="1" :keepLength="true" :data="product_lists" class="shadow-sm"  
+                        @pagination-change-page="getProduct"
+                        />
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
                 </div>
 
 
@@ -297,6 +342,7 @@ export default {
         let product_lists = ref([]);
         let stock_lists = ref([]);
         let expired_lists = ref([]);
+        let items_sold = ref([]);
 
 
         const loading = ref(true);
@@ -327,6 +373,18 @@ export default {
         }
 
 
+        /* LISTS OF SOLD ITEMS */
+        const sold_items = async() => {
+            axios_client.get('http://127.0.0.1:8000/api/sold').then(response=>{       
+                items_sold.value = response.data.sold;
+                
+            }).catch(error =>{
+                console.log(error.response.data)
+            })
+        }
+
+
+
 
         /* LISTS OF LOW STOCKS PRODUCT */
         const low_stocks = async() => {
@@ -351,10 +409,11 @@ export default {
             getProduct()
             low_stocks()
             expired_prod()
+            sold_items()
         })
 
         return {
-            product_lists,stock_lists,getProduct,low_stocks,del_prod,loading,expired_prod,expired_lists
+            product_lists,stock_lists,getProduct,low_stocks,del_prod,loading,expired_prod,expired_lists,items_sold,sold_items
         }
 
 

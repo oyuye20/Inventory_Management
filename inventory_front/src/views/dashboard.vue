@@ -316,8 +316,13 @@
                         </div>
                     </div>
 
+               
+    
+                        <BarChart v-if="isloaded" v-bind="barChartProps" />
+  
 
 
+                    
 
 
 
@@ -335,32 +340,76 @@
 <script>
 import '../assets/dashboard.css'
 
+/* import { shuffle } from 'lodash'; */
+
 import { useStore } from "vuex";
 import { computed, toHandlers } from "vue";
 import { useRouter } from "vue-router";
 import {reactive, onMounted} from 'vue';
 import axios_client from '../axios';
-import { ref, watchEffect } from 'vue';
+import { ref, watchEffect, defineComponent } from 'vue';
+
+import { Chart, registerables } from 'chart.js';
+import { BarChart, useBarChart } from 'vue-chart-3';
+
+Chart.register(...registerables);
 
 
-export default {
+
+/* export default {
     name: 'dashboard',
 
-  /*   components: {
-        modal,
-        prod_add
-    }, */
+    components: {
+        Bar,
+    },
+ */
 
+ export default defineComponent({
+    name: 'Dashboard',
+    components: {BarChart},
 
     setup(){
+
+        const data = ref([30]);
+
         let product_lists = ref([]);
         let expired_lists = ref([]);
         let stock_lists = ref([]);
-        let product_total = ref('');
-        let num_total_stock = ref('');
+        const product_total = ref([]);
+        let num_total_stock = ref([]);
         let crit_stocks1 = ref('');
         let sale_total = ref('');
-        const isSidebar = ref(false);
+        const isSidebar = ref(true);
+        
+
+        const isloaded = ref(false)
+
+        const total_prod = computed(() => product_total.value)
+
+        console.log(total_prod.value)
+
+
+        
+    const chartData = computed(() => ({
+      labels: ['Products'],
+      datasets: [
+        {
+          data: product_total.value,
+          backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
+        },
+      ],
+    }));
+
+    const { barChartProps, barChartRef } = useBarChart({
+      chartData,
+    });
+
+   
+
+
+
+       
+
 
 
         let exp_list_count = ref('');
@@ -434,9 +483,12 @@ export default {
 
 
         /* TOTAL OF PRODUCTS IN DASHBOARD */
-        const total_products = async() => {
+        const total_products = () => {
             axios_client.get('http://127.0.0.1:8000/api/stats').then(response=>{
                 product_total.value = response.data.product_count
+
+                console.log(product_total.value)    
+                isloaded.value = true
             }).catch(error =>{
 
             })
@@ -532,16 +584,17 @@ export default {
         return {
             user: computed(() => store.state.user.data)
             ,product_lists,getProduct,close,expired_prod,expired_lists,low_stocks
-            ,stock_lists,search_box,typing,product_total,low_stocks,total_products,stock_total
+            ,stock_lists,search_box,typing,product_total,total_products,stock_total
             ,num_total_stock,crit_stocks1,crit_stocks,logout,exp_count_f,exp_list_count,isSidebar,dateTime,sale_total,total_sales
+
+            , barChartProps, barChartRef,isloaded
         }
 
 
 
     }
-}
-
-
+  
+});
 
 
 </script>

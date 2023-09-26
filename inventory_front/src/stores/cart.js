@@ -34,6 +34,8 @@ export const useCartStore = defineStore('CartStore', () =>{
 
         const find_id = cart.value.find(e => e.product_id === data_cart.product_id)
 
+   
+
 
 
         if(find_id)
@@ -54,7 +56,7 @@ export const useCartStore = defineStore('CartStore', () =>{
 
         else 
         {
-            cart.value.push(data_cart)       
+            cart.value.push(data_cart)     
         }
 
         

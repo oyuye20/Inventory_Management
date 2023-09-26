@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('manufacturer');
             $table->string('product_name');
             $table->string('description');
+            $table->string('price');
             $table->string('size');
             $table->timestamps();
 
@@ -43,13 +44,8 @@ return new class extends Migration
             $table->string('stocks');
             $table->date('production_date');
             $table->date('expiration_date');
-            $table->date('status');
+            $table->string('status');
             $table->timestamps();
-
-            $table->foreign('category_id')
-            ->references('id')
-            ->on('category')
-            ->onDelete('cascade');
 
             $table->foreign('product_id')
             ->references('id')

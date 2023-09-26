@@ -90,6 +90,7 @@
                             <tr>
                             <th scope="col">Product Name</th>
                             <th scope="col">Total of sold items</th>
+                            <th scope="col">Total Income</th>
 
                             <!-- <th>Actions</th> -->
                             </tr>
@@ -99,7 +100,7 @@
                         <tr>
                             <td class="fs-5">{{sold.product_name}}</td>
                             <td class="fs-5">{{sold.sold_items}}</td>
-      
+                            <td class="fs-5">{{Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format((sold.money))}}</td>
 
 
                             <!-- <td class="m-3">
@@ -377,7 +378,6 @@ export default {
         const sold_items = async() => {
             axios_client.get('http://127.0.0.1:8000/api/sold').then(response=>{       
                 items_sold.value = response.data.sold;
-                
             }).catch(error =>{
                 console.log(error.response.data)
             })

@@ -98,10 +98,47 @@ class stats extends Controller
     }
 
     public function sold_items(){
-        $sold = DB::table('customer_orders')->groupBy('product_name')
-        ->selectRaw('product_name, sum(quantity) as sold_items')
+
+        /* SELECT
+        pi.id,
+        pi.product_name,
+        pi.price,
+        inv.id,
+        SUM(inv.stocks) AS total_quantity
+        FROM
+            product_info pi
+        JOIN
+            inventory inv
+        ON
+            pi.id = inv.product_id
+        GROUP BY
+            pi.id, pi.product_name, pi.price, inv.product_id
+         HAVING
+    		SUM(inv.stocks) < 100; */
+
+
+
+       /*  $sold = DB::table('inventory')->groupBy('product_name')
+        ->selectRaw('product_name,sum(quantity) as sold_items')
         ->orderBy('quantity', 'ASC')
         ->get();
+ */
+
+        $sold = DB::table('customer_orders')
+        ->selectRaw('product_name,sum(quantity) as sold_items, sum(total) as money')
+        ->orderBy('money', 'DESC')
+        ->groupBy('product_name')
+        ->get();
+        
+
+         /* $sold = DB::table('product_info')
+         ->join('inventory','product_info.id', '=','inventory.product_id') 
+         ->selectRaw('inventory.product_id, product_name, price, sum(inventory.stocks) as stocks')
+         ->groupBy('inventory.product_id','product_info.price','product_info.product_name')
+         ->havingRaw('SUM(inventory.stocks) < 100')
+         ->get();
+ */
+
 
 
         return response()->json([

@@ -3,25 +3,52 @@
     <div>
 
 
-        <div class="row container-fluid main d-flex" @submit.prevent="login">
+        <div class="row container-fluid main d-flex" @submit.prevent="login"  >
 
             <div class="row m-0 p-0">
 
-                <div class="col-6 p-3" style="height: 100vh;">
-
-
-
+                <div class="col-6 " style="height: 100vh;">
+                    
                 </div>
 
 
-                <div class="col-6 border border-light bg-light rounded-start-5 p-3" style="height: 100vh;">
-                 
+                <div class="col-6 border border-light bg-light rounded-start-5  
+                d-flex justify-content-center align-items-center p-3 flex-column" style="height: 100vh;">
+
+                    <div class="d-flex justify-content-center" style="width: 100%;">
+                        
+                        <span class="fs-1 fw-bold">LOGIN</span>
+
+                        
+                    </div>    
+
+                    <span class="fs-1 fw-bold border border-dark" 
+                    style="width: 60%; margin-top: 50px; margin-bottom: 50px;">
+                    </span>
+
+                    <form style="width: 50%;">
+
+                        <div v-if="errorMsg" class="alert alert-danger text-center" role="alert">
+                        {{errorMsg}}
+                        </div>
+
+                        <input type="text" placeholder="Enter Username" v-model="user.email" class="form-control p-2 mb-3" style="border-radius: 10px;">
+
+                        <input type="password" placeholder="Enter Password" v-model="user.password" class="form-control p-2" style="border-radius: 10px;">
+
+                        <button class="btn btn-success w-100" type="submit" :disabled="loading" style="width: 60%; margin-top: 50px;">
+                            <span v-if="loading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            <span role="status" class="mx-1">Login</span>
+                        </button>
+
+   
+                    </form>   
                 </div>
 
 
             </div>
           
-            <form class="col-xxl-3 col-lg-6 col-md-8 col-sm-9 form">
+            <!-- <form class="col-xxl-3 col-lg-6 col-md-8 col-sm-9 form">
 
                 <div v-if="errorMsg" class="alert alert-danger text-center" role="alert">
                     {{errorMsg}}
@@ -50,12 +77,12 @@
             </button>
 
 
-            </form>
+            </form> -->
 
  
         </div>
 
-
+ 
 
         <!-- <form class="container mt-3" @submit="login">
             <h4>Login Form</h4>
@@ -99,7 +126,6 @@
 <script>
 import '../assets/style.css'
 
-
 import store from '../store'
 import {useRouter} from 'vue-router'
 import { ref } from 'vue'
@@ -112,6 +138,7 @@ import {required} from '@vuelidate/validators'
 export default {
 
     setup(){
+
     const loading = ref(false);
     const router = useRouter();
 
@@ -120,7 +147,7 @@ export default {
         password: ''
     }
 
-    /* const email = ref('');
+    const email = ref('');
     const password = ref('');
     
 
@@ -131,14 +158,15 @@ export default {
 
     const v$ = useVulidate(rules, {
         email,password
-    }); */
+    });
 
     let errorMsg = ref('');
 
 
     function login(){
+        /* console.log('login')
   
-        /* if(v$.value.$invalid){
+        if(v$.value.$invalid){
             v$.value.$touch();
             return
         } */

@@ -56,6 +56,23 @@
 
                     </router-link>
 
+
+                    <router-link :to="{name: 'inventory'}">
+                        
+                        <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="fas fa-boxes-stacked me-3"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Inventory</span>
+                        </div>
+
+                    </div>
+
+                    </router-link>
+
                     
                     
 

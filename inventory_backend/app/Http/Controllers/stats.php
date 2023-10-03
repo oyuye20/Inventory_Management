@@ -131,16 +131,6 @@ class stats extends Controller
         ->get();
         
 
-         /* $sold = DB::table('product_info')
-         ->join('inventory','product_info.id', '=','inventory.product_id') 
-         ->selectRaw('inventory.product_id, product_name, price, sum(inventory.stocks) as stocks')
-         ->groupBy('inventory.product_id','product_info.price','product_info.product_name')
-         ->havingRaw('SUM(inventory.stocks) < 100')
-         ->get();
- */
-
-
-
         return response()->json([
             'sold' => $sold,
             'code' => 200

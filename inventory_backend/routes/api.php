@@ -6,6 +6,7 @@ use App\Http\Controllers\login;
 use App\Http\Controllers\product_crud;
 use App\Http\Controllers\stats;
 use App\Http\Controllers\filter;
+use App\Http\Controllers\inventory;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +46,7 @@ Route::post('/add_product', [product_crud::class, 'add_product']);
 Route::put('/update_product/{id}', [product_crud::class, 'action_update_product']);
 Route::get('/products', [product_crud::class, 'index']);
 Route::get('/product/edit/{id}', [product_crud::class, 'index_update_product']);
-Route::delete('/delete/{id}', [product_crud::class, 'delete_product']);
+Route::put('/delete/{id}', [product_crud::class, 'delete_product']);
 
 
 Route::get('/sample/{id}', [product_crud::class, 'show1']);
@@ -53,6 +54,17 @@ Route::get('/sample/{id}', [product_crud::class, 'show1']);
 Route::post('/checkout', [product_crud::class, 'checkout']);
 
 
+
+
+/* INVENTORY */
+Route::get('/inventory', [inventory::class, 'inventory_index']);
+Route::get('/index/category', [inventory::class, 'index_category']);
+Route::get('/category/edit/{id}', [inventory::class, 'get_update_cat']);
+
+
+Route::post('/category', [inventory::class, 'create_category']);
+Route::put('/category/update/{id}', [inventory::class, 'update_category']);
+Route::put('/category/archive/{id}', [inventory::class, 'delete_category']);
 
 
 

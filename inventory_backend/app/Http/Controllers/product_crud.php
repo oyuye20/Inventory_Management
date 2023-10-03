@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\products;
 use App\Models\transactions;
 use App\Models\customer_orders;
+use App\Models\product_info;
+use App\Models\category;
 use Illuminate\Support\Facades\DB;
 
 class product_crud extends Controller
@@ -13,7 +15,8 @@ class product_crud extends Controller
 
     /* READ ALL PRODUCT */
     public function index(){
-        return products::orderBy('id')->paginate(5);
+/*         return category::orderBy('id')->paginate(5); */
+        return product_info::with('category')->where('isArchived',0)->paginate(5);
         
         /* return response()->json([
             'products' => $product,
@@ -47,7 +50,6 @@ class product_crud extends Controller
 
 
         foreach($r as $values) {
-
              customer_orders::create([
                 "transactions_id" => $transactions->id,
                 "product_name" => $values['product_name'],
@@ -56,17 +58,29 @@ class product_crud extends Controller
                 "total" => $values['total'],
             ]);
 
-
+    
             $stock_update = $values['stocks'] - $values['quantity'];
 
-            $update_quantity = DB::table('products')
-            ->where('id', $values['product_id'])
-            ->update(['stocks' => $stock_update]);
-            
-         } 
+            $update_quantity = DB::table('inventory')
+            ->where('product_id', $values['product_id'])
+            ->update(['stocks' => - $values['quantity']]);
 
+            
+            /* return $update_quantity = DB::table('inventory')
+            ->select('product_id','product_id','stocks'
+            ,DB::raw('MAX(created_at) as old'))
+
+            ->where('product_id','=',1)
+            ->update(['votes' => 1]); */
         
 
+           /*  return $update_quantity = DB::table('inventory')
+            ->select('product_id','stocks')
+            ->groupBy('product_id', 'stocks')
+            ->get(); */
+            /* ->update(['stocks' => $stock_update]); */
+            
+         } 
 
 
         return response()->json([
@@ -132,11 +146,11 @@ class product_crud extends Controller
 
     /* DELETE A PRODUCT */
     public function delete_product($id){
-        $product = products::find($id);
+        $product = product_info::find($id);
 
         if($product)
         {
-            $product->delete();
+            $product->where('isArchived', 0)->update(['isArchived'=> 1]);
             return response()->json([
                 'message' => 'Product deleted successfully'
             ]);

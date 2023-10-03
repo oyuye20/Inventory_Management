@@ -1,6 +1,58 @@
 <template>
+
+<transition name="modalAnim">
+    <div v-if="modalActive" class="container-fluid d-flex justify-content-center align-items-center" 
+style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; background-color: rgba(0, 0, 0, 0.605); overflow: auto;">
+    
+    <div class="row container d-flex 
+    justify-content-center align-items-center">
+
+        <div class="col-lg-5 bg-light shadow-sm rounded-5 p-0">
+
+            <div class="col-12 mb-4 text-start rounded-top-3 p-3" style="background-color: rgb(4, 180, 116);">
+                <span class="fw-bold fs-3 text-white"><i class="fas fa-circle-plus me-3">
+                </i>Add new category</span>
+            </div>
+
+            <div class="div p-4">          
+
+                <div class="col-12 mb-4">
+                    <input type="text" class="form-control" v-model="category.name" placeholder="Enter category name">
+                </div>
+
+                <div class="col-12">
+                    <input type="text" class="form-control" v-model="category.desc" placeholder="Description">
+                </div>
+
+            </div>
+
+
+            <div class="col-12 border border-black px-3">
+                
+            </div>
+
+            <div class="d-flex justify-content-end p-3">
+                <button class="btn btn-danger me-2" @click="toggleModal">Close</button>
+
+                <form @submit.prevent="create_category()">
+                    <button class="btn btn-success">Save</button>
+                </form>
+                
+            </div>
+
+        
+        </div>
+    </div>
+</div>
+</transition>
+
+
+
 <body>
+
+
     <div class="d-flex" id="wrapper">
+        
         <!-- Sidebar -->
 
             <div class="sidebar_wrapper" :class ="{side: isSidebar}">
@@ -178,31 +230,6 @@
                 </div>
 
 
-                
-
-                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle me-2"></i>Welcome Admin
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div> -->
-
-
             </nav>
 
             <div class="container-fluid px-4">
@@ -213,6 +240,8 @@
                     </button>
                 </router-link>
 
+                <button class="btn btn-dark mt-3" @click="toggleModal">Add new category</button>
+
 
                 <div v-if="loading" class="p-3 d-flex justify-content-center align-items-center container-fluid h-100 mt-3">
                     <span class="spinner-border spinner-border-lg  p-3" aria-hidden="true" style="font-size: ;"></span>
@@ -220,12 +249,12 @@
                 
 
                 <div v-else class="table-responsive">
-                    <h4 class="mt-3 mb-3 w-100 bg-light p-3"><i class="fas fa-box-open me-2"></i>Product Lists</h4>
+                    <h4 class="mt-3 mb-3 w-100 bg-light p-3"><i class="fas fa-box-open me-2"></i>Product Info Lists</h4>
 
-                    <div class="container-fluid d-flex mb-3 mt-3">
+                    <!-- <div class="container-fluid d-flex mb-3 mt-3">
                         <input type="text" role="searchbox" class="form-control me-3" placeholder="search a product">
                         <button  class="btn btn-sm btn-primary"><i class="fas fa-magnifying-glass"></i></button>
-                    </div>
+                    </div> -->
 
 
                     <h4 v-if="typing" class="w-100 text-center d-flex justify-content-center align-items-center loading">Loading....</h4>
@@ -240,9 +269,6 @@
                                 <th scope="col" class="fs-6 fw-bold">Product Name</th>
                                 <th scope="col" class="fs-6 fw-bold">Description</th>
                                 <th scope="col" class="fs-6 fw-bold">Size Name</th>
-                                <th scope="col" class="fs-6 fw-bold">Stock</th>
-                                <th scope="col" class="fs-6 fw-bold">Date of Production</th>
-                                <th scope="col" class="fs-6 fw-bold">Expiration Date</th>
                                 <th class="fs-6 fw-bold" >Status</th>
                                 <th class="fs-6 fw-bold" >Actions</th>
                             </tr>
@@ -258,9 +284,6 @@
                             <td class="fs-5">{{product.product_name}}</td>
                             <td class="fs-5">{{product.description}}</td>
                             <td class="fs-5">{{product.size}}</td>
-                            <td class="fs-5">{{product.stocks}}</td>
-                            <td class="fs-5">{{product.production_date}}</td>
-                            <td class="fs-5">{{product.expiration_date}}</td>
                             <td class="fs-5">hello</td>
 
                             <td class="m-3">
@@ -293,6 +316,9 @@
         </div>
 
     </div>
+
+
+    
     <!-- /#page-content-wrapper -->
 
 </body>
@@ -326,11 +352,19 @@ export default {
     setup(){
         let product_lists = ref([]);
 
+
+        const category = ref([]);
+
         const search_box = ref('');
         const typing = ref(false);
         const isSidebar = ref(false);
 
         const loading = ref(true);
+        const modalActive = ref(false);
+
+        const toggleModal = ()=>{
+            modalActive.value = !modalActive.value;
+        }
 
 
         watchEffect((onvalidate) =>{
@@ -376,7 +410,7 @@ export default {
         /* DELETE A PRODUCT */
         function del_prod(id){
             let url = 'http://127.0.0.1:8000/api/delete/' + id;
-            axios_client.delete(url).then(response => {
+            axios_client.put(url).then(response => {
                 this.getProduct()
             })
         }
@@ -392,16 +426,27 @@ export default {
             })
         }
 
+
+        /* CREATE CATEGORY */
+
+        function create_category(){
+            axios_client.post(`http://127.0.0.1:8000/api/update_product/`, category.value).then(response=>{
+
+
+                
+            }).catch(error =>{
+                console.log(error.response.data)
+            })
+        }
     
         onMounted(()=> {
             getProduct()
-
         })
 
 
         return {
             user: computed(() => store.state.user.data)
-            ,product_lists,del_prod,getProduct,typing,loading,isSidebar
+            ,product_lists,del_prod,getProduct,typing,loading,isSidebar,modalActive,toggleModal,create_category,category
         }
 
 
@@ -409,7 +454,22 @@ export default {
     }
 }
 
-
-
-
 </script>
+
+<style scoped>
+.modalAnim-leave-to,
+.modalAnim-enter-from{
+    opacity: 0;
+}
+
+.modalAnim-leave-from,
+.modalAnim-enter-to{
+    opacity: 1;
+}
+
+.modalAnim-leave-active,
+.modalAnim-enter-active{
+    transition: opacity 0.3s;
+}
+    
+</style>

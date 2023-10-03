@@ -1,6 +1,5 @@
 <template>
 
-
     <div v-if="loading" class="div p-3 flex-column d-flex justify-content-center align-items-center container-fluid" style="height: 100vh;">
         <p class="fw-bold fs-3">Loading...</p>
         <span class="spinner-border spinner-border-sm  p-3" aria-hidden="true" style="font-size: ;"></span>

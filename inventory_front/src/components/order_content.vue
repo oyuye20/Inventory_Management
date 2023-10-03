@@ -29,7 +29,7 @@
 
 
                 <div class="div mt-3 p-3">
-                    <input type="text" class="form-control mb-3" required v-model="customer_name" placeholder="Customer Name">
+                    <input type="text" class="form-control mb-3" v-model="customer_name" placeholder="Customer Name">
                 </div>
 
               
@@ -97,7 +97,12 @@
                                 }}
                         </h4>
 
-                        <button type="submit" class="btn btn-success me-2 m-2">Check Out</button>
+                        
+                        
+                        <button type="submit" class="btn btn-success" :disabled="submit_btn">         
+                            <span role="status" class="mx-1">Check Out</span>
+                            <span v-if="submit_btn" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        </button>
 
                     </div>
                 </form>
@@ -127,12 +132,12 @@
                         
 
                     
-                        <div class="col-xl-6 p-2" v-for="product in lists.data" :key="product.id">
+                        <div class="col-xl-6 p-2" v-for="product in lists.data" :key="product.product_id">
                  
                             <div class="p-3">
+                              
 
                                 <div  class="d-flex justify-content-center flex-column align-items-center">
-                                    <p>{{product.serial_number}}</p>
                                     <p>{{product.product_name}}</p>
                                     <p>{{product.stocks}}</p>
                                     <p>{{product.price}}</p>
@@ -146,7 +151,7 @@
 
                                 <div v-else class="div">
                                     <button :disabled="deplete1" 
-                                    @click="cart_add.add_cart(product.id,product.product_name,product.stocks,product.price)" 
+                                    @click="cart_add.add_cart(product.product_id,product.product_name,product.stocks,product.price,)" 
                                     class="btn btn-primary w-100 mt-3">add</button>
                                 </div>
 
@@ -162,7 +167,7 @@
 
                     
                     <div class="w-100 d-flex justify-content-center mt-3">
-                        <Bootstrap5Pagination :data="lists" :limit="2" @pagination-change-page="CartStore.getProduct"/>
+                        <Bootstrap5Pagination :data="lists" :limit="1" @pagination-change-page="CartStore.getProduct"/>
                     </div>
                     
 
@@ -197,18 +202,24 @@ export default{
         let search_data = ref([]);
         const CartStore = useCartStore()
         const cart_add = useCartStore()
+
+
         const customer_name = ref();
+
+
+
         const cart_order = CartStore.cart
 
         const show_alert = ref(false);
 
+        const submit_btn = ref(false);
+
 
         const lists = computed(()=> CartStore.prod)
-        const cart_lists = computed(()=> CartStore.cart2)
+        const cart_lists = computed(()=> CartStore.cart)
         const msg = computed(()=> CartStore.message2)
         const deplete1 = computed(()=> CartStore.deplete2)
 
-        
 
 
     
@@ -218,8 +229,9 @@ export default{
 
 
         function checkout(){
+            
    
-            if(CartStore.cart.length == 0){
+            if(CartStore.cart.length == 0){  
                 alert('Please add items')
             }
 
@@ -228,6 +240,7 @@ export default{
             }
 
             else{
+                submit_btn.value = true
                 const today = new Date();
                 const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
                 const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -247,21 +260,25 @@ export default{
 
 
 
-                form.append('cart', JSON.stringify(cart_order))
+                form.append('cart', JSON.stringify(cart_lists.value))
                 form.append('purchase_date', dateTime)
 
 
+
+                /* FOR CHECKOUT FUNCTIONALITY */
                 axios_client.post("http://127.0.0.1:8000/api/checkout", form).then(response=>{
                     console.log(response.data)     
                     customer_name.value = ''
                     show_alert.value = true
                     CartStore.clear_cart()
                     CartStore.getProduct()
+                    submit_btn.value = false
+
                 }).catch(error =>{
                     console.log(error.response)
+                    submit_btn.value = false
                 })
-
-                
+               
             }           
         }
 
@@ -281,7 +298,7 @@ export default{
         return {
             msg,product_lists,lists,cart_add,cart_lists,CartStore,
             deplete1,btn_search,search_data,checkout,customer_name,
-            show_alert,cart_order
+            show_alert,cart_order,submit_btn
         }
     }
 }

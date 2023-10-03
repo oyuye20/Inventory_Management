@@ -27,8 +27,10 @@
     border-radius: 100%;
   }
  */
- 
-  
+
+
+
+
   #wrapper {
     overflow-x: hidden;
     /* background-image: linear-gradient(
@@ -56,7 +58,11 @@
   }
 
 
-
+  .scroll_prevent {
+    overflow: hidden;
+   }
+  
+  
   
   .sidebar_wrapper {
     min-height: 100vh;

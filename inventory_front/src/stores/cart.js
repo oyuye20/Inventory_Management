@@ -8,7 +8,7 @@ export const useCartStore = defineStore('CartStore', () =>{
     const list_product = ref([]);
 
     const prod = computed(() => list_product.value)
-    const cart2 = computed(() => cart.value)
+
 
     const cart = ref([]);
     const message_stock = ref("");
@@ -22,7 +22,7 @@ export const useCartStore = defineStore('CartStore', () =>{
     const deplete = ref(false);
 
 
-    const add_cart = (product_id, product_name, stocks, price,quantity) => {
+    const add_cart = (product_id, product_name, stocks, price) => {
         const data_cart = {
             product_id,
             product_name,
@@ -33,9 +33,6 @@ export const useCartStore = defineStore('CartStore', () =>{
         }
 
         const find_id = cart.value.find(e => e.product_id === data_cart.product_id)
-
-   
-
 
 
         if(find_id)
@@ -50,7 +47,6 @@ export const useCartStore = defineStore('CartStore', () =>{
             {
                 find_id.quantity += 1
                 find_id.total = (find_id.price * find_id.quantity);
-        
             }
         }
 
@@ -65,7 +61,7 @@ export const useCartStore = defineStore('CartStore', () =>{
 
 
     const getProduct = async(page = 1) => {
-        axios_client.get('http://127.0.0.1:8000/api/products?page=' + page).then(response=>{
+        axios_client.get('http://127.0.0.1:8000/api/inventory?page=' + page).then(response=>{
             list_product.value = response.data;
 
             /* console.log(response.data) */
@@ -145,7 +141,7 @@ export const useCartStore = defineStore('CartStore', () =>{
         }
     }
 
-    return {getProduct,prod,add_cart,cart,grand_total,remove_cart,increment,decrement,message_stock,clear_cart,cart2,message2,close_msg_stock}
+    return {getProduct,prod,add_cart,cart,grand_total,remove_cart,increment,decrement,clear_cart,message_stock,message2,close_msg_stock}
 
 
     /* state: () => ({

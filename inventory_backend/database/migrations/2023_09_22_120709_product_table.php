@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('category', function(Blueprint $table){
+        Schema::create('categories', function(Blueprint $table){
             $table->increments('id');
             $table->string('category');
             $table->string('description');
+            $table->boolean('isArchived');
             $table->timestamps();
         });
 
 
-        Schema::create('product_info', function(Blueprint $table){
+        Schema::create('product_infos', function(Blueprint $table){
             $table->increments('id');
             $table->unsignedInteger('category_id');
             $table->string('serial_number');
@@ -28,11 +29,12 @@ return new class extends Migration
             $table->string('description');
             $table->string('price');
             $table->string('size');
+            $table->boolean('isArchived');
             $table->timestamps();
 
             $table->foreign('category_id')
             ->references('id')
-            ->on('category')
+            ->on('categories')
             ->onDelete('cascade');
         });
 
@@ -49,7 +51,7 @@ return new class extends Migration
 
             $table->foreign('product_id')
             ->references('id')
-            ->on('product_info')
+            ->on('product_infos')
             ->onDelete('cascade');
         });
 

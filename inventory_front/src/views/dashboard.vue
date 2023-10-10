@@ -387,13 +387,12 @@ Chart.register(...registerables);
 
     setup(){
 
-        const data = ref([30]);
 
         let product_lists = ref([]);
         let expired_lists = ref([]);
         let stock_lists = ref([]);
-        const product_total = ref([]);
-        let num_total_stock = ref([]);
+        const product_total = ref();
+        let num_total_stock = ref();
         let crit_stocks1 = ref('');
         let sale_total = ref('');
         const isSidebar = ref(true);
@@ -411,7 +410,7 @@ Chart.register(...registerables);
       labels: ['Products'],
       datasets: [
         {
-          data: product_total.value,
+          data: [product_total.value],
           backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
         },
       ],
@@ -520,6 +519,8 @@ Chart.register(...registerables);
 
             })
         }
+
+
 
 
         /* EXPIRED PRODUCT COUNT */

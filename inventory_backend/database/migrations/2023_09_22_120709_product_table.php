@@ -39,10 +39,10 @@ return new class extends Migration
         });
 
 
-        Schema::create('inventory', function(Blueprint $table){
+        Schema::create('inventories', function(Blueprint $table){
             $table->increments('id');
-            $table->unsignedInteger('category_id');
             $table->unsignedInteger('product_id');
+            $table->string('category');
             $table->string('stocks');
             $table->date('production_date');
             $table->date('expiration_date');

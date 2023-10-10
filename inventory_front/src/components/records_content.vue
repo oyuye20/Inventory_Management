@@ -163,17 +163,17 @@
                             </tr>
                         </thead>
 
-                    <tbody v-for="product in product_lists.data" :key="product.id" class="">
+                    <tbody v-for="p in product_lists.data" :key="p.id" class="">
                         <tr>
-                            <td hidden>{{product.id}}</td>
-                            <td class="fs-5" >{{product.serial_number}}</td>
-                            <td class="fs-5" >{{product.manufacturer}}</td>
-                            <td class="fs-5" >{{product.product_name}}</td>
-                            <td class="fs-5" >{{product.description}}</td>
-                            <td class="fs-5" >{{product.size}}</td>
-                            <td class="fs-5" >{{product.stocks}}</td>
-                            <td class="fs-5" >{{product.production_date}}</td>
-                            <td class="fs-5" >{{product.expiration_date}}</td>
+                            <td hidden>{{p.id}}</td>
+                            <td class="fs-5" >{{p.serial_number}}</td>
+                            <td class="fs-5" >{{p.manufacturer}}</td>
+                            <td class="fs-5" >{{p.product_name}}</td>
+                            <td class="fs-5" >{{p.description}}</td>
+                            <td class="fs-5" >{{p.size}}</td>
+                            <td class="fs-5" >{{p.stocks}}</td>
+                            <td class="fs-5" >{{p.production_date}}</td>
+                            <td class="fs-5" >{{p.expiration_date}}</td>
                             <td class="fs-5" >hello</td>
 
                             <!-- <td class="m-3">
@@ -350,7 +350,6 @@ export default {
 
         /* GET PRODUCT TABLE */
         const getProduct = async(page = 1) => {
-
             axios_client.get('http://127.0.0.1:8000/api/products?page=' + page).then(response=>{
                 product_lists.value = response.data;
                 loading.value = false;

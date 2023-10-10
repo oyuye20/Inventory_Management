@@ -13,112 +13,28 @@
   </thead>
 
 
-  <tbody v-for="inv in inv_lists.data">
-    <tr>
-
-      <td>
-          <p class="fw-bold">{{inv.product_name}}</p>
-      </td>
-
-      <td>
-          <p class="fw-bold">{{inv.price}}</p>
-      </td>
-
-      <td>
-          <p class="fw-bold">{{inv.stocks}}</p>
-      </td>
-
-      <td>
-          <p class="fw-bold">{{inv.production_date}}</p>
-      </td>
-
-      <td>
-          <p class="fw-bold">{{inv.expiration_date}}</p>
-      </td>
-
-     <!--  <td>
-        <p class="fw-normal mb-1">Software engineer</p>
-        <p class="text-muted mb-0">IT department</p>
-      </td>
-      <td>
-        <span class="badge badge-success rounded-pill d-inline">Active</span>
-      </td>
-      <td>Senior</td>
-      <td>
-        <button type="button" class="btn btn-link btn-sm btn-rounded">
-          Edit
-        </button>
-      </td>
-    </tr>
+  <tbody v-for="i in inv_lists.data">
     <tr>
       <td>
-        <div class="d-flex align-items-center">
-          <img
-              src="https://mdbootstrap.com/img/new/avatars/6.jpg"
-              class="rounded-circle"
-              alt=""
-              style="width: 45px; height: 45px"
-              />
-          <div class="ms-3">
-            <p class="fw-bold mb-1">Alex Ray</p>
-            <p class="text-muted mb-0">alex.ray@gmail.com</p>
-          </div>
-        </div>
+          <p class="fw-bold">{{i.product.product_name}}</p>
       </td>
-      <td>
-        <p class="fw-normal mb-1">Consultant</p>
-        <p class="text-muted mb-0">Finance</p>
-      </td>
-      <td>
-        <span class="badge badge-primary rounded-pill d-inline"
-              >Onboarding</span
-          >
-      </td>
-      <td>Junior</td>
-      <td>
-        <button
-                type="button"
-                class="btn btn-link btn-rounded btn-sm fw-bold"
-                data-mdb-ripple-color="dark"
-                >
-          Edit
-        </button>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div class="d-flex align-items-center">
-          <img
-              src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-              class="rounded-circle"
-              alt=""
-              style="width: 45px; height: 45px"
-              />
-          <div class="ms-3">
-            <p class="fw-bold mb-1">Kate Hunington</p>
-            <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-          </div>
-        </div>
-      </td>
-      <td>
-        <p class="fw-normal mb-1">Designer</p>
-        <p class="text-muted mb-0">UI/UX</p>
-      </td>
-      <td>
-        <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
-      </td>
-      <td>Senior</td>
-      <td>
-        <button
-                type="button"
-                class="btn btn-link btn-rounded btn-sm fw-bold"
-                data-mdb-ripple-color="dark"
-                >
-          Edit
-        </button>
-      </td> -->
 
-      
+      <td>
+          <p class="fw-bold">{{i.product.price}}</p>
+      </td>
+
+      <td>
+          <p class="fw-bold">{{i.stocks}}</p>
+      </td>
+
+      <td>
+          <p class="fw-bold">{{i.production_date}}</p>
+      </td>
+
+      <td>
+          <p class="fw-bold">{{i.expiration_date}}</p>
+      </td>
+
     </tr>
   </tbody>
   
@@ -132,6 +48,38 @@
 
 
 
+
+</div>
+
+
+<div class="container-fluid">
+
+  <h4>Add new stocks</h4>
+
+  <label for="" class="fw-bold mb-2">Category</label>
+  <select class="form-control mb-3" v-model="inventory.category">    
+    <option selected v-for="cat in category_lists" >{{cat.category}}</option>
+  </select>
+
+  <label for="" class="fw-bold mb-2">Product Name</label>
+  <select class="form-control mb-3" v-model="inventory.product_info">
+    <option v-for="prod in productinfo" :key="prod.id" :value="prod.id">{{prod.product_name}}</option>
+  </select>
+
+  <label for="" class="fw-bold mb-2">Number of Stocks</label>
+  <input type="text" class="form-control mb-3" placeholder="Stocks" @input="filter_input" v-model="inventory.stocks">
+
+  <label for="" class="fw-bold mb-2">Date of Production</label>
+  <input type="date" class="form-control mb-3" placeholder="Production Date" v-model="inventory.prod_date">
+
+  <label for="" class="fw-bold mb-2">Expiration Date</label>
+  <input type="date" class="form-control" placeholder="Expiration Date" v-model="inventory.exp_date">
+
+
+  <form @submit.prevent="add_inventory">
+    <button type="submit" class="btn btn-success form-control mt-3">Add new stocks</button>
+  </form>
+  
 
 </div>
 
@@ -161,23 +109,92 @@ export default {
     
     setup(){
 
-        const inv_lists = ref([])
+        const inv_lists = ref([]);
+        const category_lists = ref([]);
+        const productinfo = ref([]);
+
+        const inventory  = reactive({
+          category: '',
+          product_info: '',
+          stocks: '',
+          prod_date: '',
+          exp_date: '',
+        })
+
+        
+        function filter_input(){
+          this.inventory.stocks = this.inventory.stocks.replace(/[^0-9]/g, "");
+        }
+
+
+        function add_inventory(){
+          let formData = new FormData();
+          formData.append('category', this.inventory.category);
+          formData.append('product_info', this.inventory.product_info);
+          formData.append('stocks', this.inventory.stocks);
+          formData.append('prod_date', this.inventory.prod_date);
+          formData.append('exp_date', this.inventory.exp_date);
+
+
+          let url = 'http://127.0.0.1:8000/api/inventory/add';
+          axios_client.post(url,formData).then(response => {
+
+            console.log(response.data)
+            this.getInventory();
+
+          }).catch(error =>{
+             
+              console.log(error.response.data)
+          })
+        }
+
+
     
         /* GET PRODUCT TABLE */
         const getInventory = async(page = 1) => {
             axios_client.get('http://127.0.0.1:8000/api/inventory?page=' + page).then(response=>{
-                inv_lists.value = response.data.inv
+                inv_lists.value = response.data
+
+                console.log(response.data)
 
             }).catch(error =>{
                 console.log(error.response.data)
             })
         }
 
+
+
+
+        const getCat = async() => {
+            axios_client.get('http://127.0.0.1:8000/api/select/category')
+            .then(response=>{
+                category_lists.value = response.data;
+            }).catch(error =>{
+                console.log(error.response.data)
+            })
+        }
+
+
+
+        const getProductInfo = async() => {
+            axios_client.get('http://127.0.0.1:8000/api/select/product/info')
+            .then(response=>{
+                productinfo.value = response.data;
+            }).catch(error =>{
+                console.log(error.response.data)
+            })
+        }
+
+
+
+
         onMounted(()=> {
             getInventory()
+            getCat()
+            getProductInfo()
         })
 
-        return {getInventory,inv_lists}
+        return {getInventory,inv_lists,category_lists,getCat,productinfo,inventory,add_inventory,filter_input}
 
     }
 

@@ -2,7 +2,6 @@
 <body>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
-
             <div class="sidebar_wrapper" :class ="{side: isSidebar}">
                 
                 <div class="sidebar-heading text-center py-4 fs-4 fw-bold d-flex justify-content-center ">
@@ -164,9 +163,7 @@
                 
 
             </div>
-     
-
-        <!-- /#sidebar-wrapper -->
+        <!-- sidebar-wrapper -->
 
         <!-- Page Content -->
 
@@ -207,8 +204,13 @@
                 <!-- <tutorial/> -->
                 
                 <inventory_content/>
+
+
+            
                 
             </div>
+
+
 
 
         </div>

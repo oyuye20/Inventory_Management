@@ -7,6 +7,19 @@
     <h4>Add new product</h4>
 
     <div class="mb-3">
+        <label for="" class="form-label">Category</label>
+        <select class="form-control" v-model="category">    
+            <option selected v-for="cat in category_lists" :key="cat.id" :value="cat.id">{{cat.category}}</option>
+        </select>
+
+    </div>
+
+
+
+
+
+
+    <div class="mb-3">
         <label for="" class="form-label">Serial Number</label>
         <input type="text" v-model="add_prod.serial_number" @input="filter_input" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
 
@@ -76,24 +89,6 @@
 
     </div>
 
-    <div class="mb-3">
-        <label for="" class="form-label">Production Date</label>
-        <input type="date" v-model="add_prod.production_date" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-    
-        <div v-if="v$.production_date.$error">
-            <p class="text-danger fw-bold mt-1">{{ "Production Date required" }}</p>
-        </div>
-
-    </div>
-
-    <div class="mb-3">
-        <label for="" class="form-label">Expiration Date</label>
-        <input type="date" v-model="add_prod.expiration_date" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-    
-        <div v-if="v$.expiration_date.$error">
-            <p class="text-danger fw-bold mt-1">{{ "Expiration Date required" }}</p>
-        </div>
-    </div>
 
     <div class="modal-footer">
 
@@ -124,6 +119,10 @@ export default {
 
     const router = useRouter();
     const loading = ref(false);
+    let category_lists = ref([]);
+
+    const category = ref([]);
+
 
     const add_prod  = reactive({
         serial_number: '',
@@ -133,20 +132,9 @@ export default {
         size : '',
         price : '',
         stocks : '',
-        production_date : '',
-        expiration_date : '',
+        category: '',
     })
 
-    /* const add_prod  = reactive({
-        serial_number:'',
-        manufacturer: '',
-        product_name: '',
-        description : '',
-        size : '',
-        stocks : '',
-        production_date : '',
-        expiration_date : '',
-    }) */
 
     function filter_input(){
         this.add_prod.serial_number = this.add_prod.serial_number.replace(/[^0-9]/g, "");
@@ -166,14 +154,13 @@ export default {
         size: {required},
         price: {required},
         stocks: {required},
-        production_date: {required},
-        expiration_date: {required},
     }
 
     const v$ = useVuelidate(rules, add_prod)
 
 
     function add_btn(){
+        console.log(category.value)
         loading.value = true;
         this.v$.$validate()
 
@@ -186,15 +173,13 @@ export default {
             formData.append('description', this.add_prod.description);
             formData.append('size', this.add_prod.size);
             formData.append('price', this.add_prod.price);
-            formData.append('stocks', this.add_prod.stocks);
-            formData.append('production_date', this.add_prod.production_date);
-            formData.append('expiration_date', this.add_prod.expiration_date);
+            formData.append('category', category.value);
 
             let url = 'http://127.0.0.1:8000/api/add_product';
             axios_client.post(url,formData).then(response => {
 
             loading.value = false;
-            router.push({name: 'dashboard'})
+            router.push({name: 'products'})
             
             }).catch(error =>{
                 loading.value = false;
@@ -208,26 +193,25 @@ export default {
     }
 
 
-    const getProduct = async() => {
-        axios_client.get('http://127.0.0.1:8000/api/products').then(response=>{
-            console.log(response.data.products)
-            product_lists.value = response.data.products
+    const getCat = async() => {
+        axios_client.get('http://127.0.0.1:8000/api/select/category')
+        .then(response=>{
+            category_lists.value = response.data;
         }).catch(error =>{
-
+            console.log(error.response.data)
         })
     }
 
 
-    
-
 
     onMounted(()=> {
-       /*  getProduct() */
+        getCat()
     })
 
 
     return {
-       add_prod,add_btn,getProduct,rules,v$,loading,filter_input
+       add_prod,add_btn,rules,v$,loading,filter_input,getCat,
+       category_lists,category
     }
 
 

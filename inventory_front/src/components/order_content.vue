@@ -132,26 +132,26 @@
                         
 
                     
-                        <div class="col-xl-6 p-2" v-for="product in lists.data" :key="product.product_id">
+                        <div class="col-xl-6 p-2" v-for="p in lists.data" :key="p.id">
                  
                             <div class="p-3">
                               
 
                                 <div  class="d-flex justify-content-center flex-column align-items-center">
-                                    <p>{{product.product_name}}</p>
-                                    <p>{{product.stocks}}</p>
-                                    <p>{{product.price}}</p>
+                                    <p>{{p.product.product_name}}</p>
+                                    <p>{{p.stocks}}</p>
+                                    <p>{{p.product.price}}</p>
                                 </div>
 
 
 
-                                <div v-if="product.stocks == 0" class="div">
+                                <div v-if="p.stocks == 0" class="div">
                                     <button disabled class="btn btn-danger w-100 mt-3 fw-bold">Sold out</button>
                                 </div>
 
                                 <div v-else class="div">
                                     <button :disabled="deplete1" 
-                                    @click="cart_add.add_cart(product.product_id,product.product_name,product.stocks,product.price,)" 
+                                    @click="cart_add.add_cart(p.product_id,p.product.product_name,p.stocks,p.product.price,)" 
                                     class="btn btn-primary w-100 mt-3">add</button>
                                 </div>
 

@@ -38,27 +38,16 @@
             <input type="text" v-model="edit_prod_val.size" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
         </div>
 
-        <div class="mb-3 col-5 mx-1">
-            <label for="" class="form-label">Stocks</label>
-            <input type="text" @input="filter_input" v-model="edit_prod_val.stocks" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-        </div>
 
     </div>
 
-    <div class="mb-3">
-        <label for="" class="form-label">Production Date</label>
-        <input type="date" v-model="edit_prod_val.production_date" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-    </div>
-
-    <div class="mb-3">
-        <label for="" class="form-label">Expiration Date</label>
-        <input type="date" v-model="edit_prod_val.expiration_date" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-    </div>
 
     <div class="modal-footer">
 
-        <button type="submit" :disabled="loading" class="btn btn-success me-2 modal-add ">
-            <span v-if="loading" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Update Product
+        <button type="submit" :disabled="loading" 
+        class="btn btn-success me-2 modal-add ">
+        
+        <span v-if="loading" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Update Product
         </button>
 
     </div>       
@@ -101,7 +90,8 @@ export default {
 
     /* GET PRODUCT TABLE */
     const getProduct = async() => {
-        axios_client.get(`http://127.0.0.1:8000/api/product/edit/` + route.params.id).then(response=>{
+        axios_client.get(`http://127.0.0.1:8000/api/product/edit/` 
+        + route.params.id).then(response=>{
             edit_prod_val.value = response.data.edit_prod;
 
         }).catch(error =>{
@@ -117,7 +107,8 @@ export default {
 
         /* console.log(edit_prod_val.value) */
 
-        axios_client.put(`http://127.0.0.1:8000/api/update_product/` + route.params.id, edit_prod_val.value).then(response=>{
+        axios_client.put(`http://127.0.0.1:8000/api/update_product/`
+         + route.params.id, edit_prod_val.value).then(response=>{
             loading.value = true;
             router.push({name: 'products'})
         }).catch(error =>{
@@ -129,8 +120,8 @@ export default {
 
     /* PREVENT ALPHANUMERIC CHARACTERS INPUT */
     function filter_input(){
-        this.edit_prod_val.serial_number = this.edit_prod_val.serial_number.replace(/[^0-9]/g, "");
-        this.edit_prod_val.stocks = this.edit_prod_val.stocks.replace(/[^0-9]/g, "");
+        this.edit_prod_val.serial_number = 
+        this.edit_prod_val.serial_number.replace(/[^0-9]/g, "");
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class product_info extends Model
 {
@@ -17,7 +18,11 @@ class product_info extends Model
         return $this->belongsTo(category::class);
     }
 
-    public function inventory(){
+
+
+    public function inventory(): HasMany{
         return $this->hasMany(inventory::class);
     }
+
+    
 }

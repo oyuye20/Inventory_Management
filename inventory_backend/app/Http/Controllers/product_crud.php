@@ -8,6 +8,7 @@ use App\Models\transactions;
 use App\Models\customer_orders;
 use App\Models\product_info;
 use App\Models\category;
+use App\Models\inventory;
 use Illuminate\Support\Facades\DB;
 
 class product_crud extends Controller
@@ -50,7 +51,7 @@ class product_crud extends Controller
 
 
         foreach($r as $values) {
-             customer_orders::create([
+            customer_orders::create([
                 "transactions_id" => $transactions->id,
                 "product_name" => $values['product_name'],
                 "quantity" => $values['quantity'],
@@ -58,12 +59,16 @@ class product_crud extends Controller
                 "total" => $values['total'],
             ]);
 
-    
-            $stock_update = $values['stocks'] - $values['quantity'];
 
-            $update_quantity = DB::table('inventory')
+        /* UPDATE inventories SET stocks = stocks - 5 WHERE product_id = 1 */
+
+
+            inventory::where('product_id', $values['product_id'])->decrement('stocks',$values['quantity']);
+
+
+            /* $update_quantity = DB::table('inventories')
             ->where('product_id', $values['product_id'])
-            ->update(['stocks' => - $values['quantity']]);
+            ->update(['stocks' => $values['quantity']]); */
 
             
             /* return $update_quantity = DB::table('inventory')
@@ -96,16 +101,14 @@ class product_crud extends Controller
     /* ADD NEW PRODUCT */
     public function add_product(Request $request){
 
-        $product = new products();
+        $product = new product_info();
+        $product->category_id = $request->category;
         $product->serial_number = $request->serial_number;
         $product->manufacturer = $request->manufacturer;
         $product->product_name = $request->product_name;
         $product->description = $request->description;
         $product->size = $request->size;
-        $product->stocks = $request->stocks;
         $product->price = $request->price;
-        $product->production_date = $request->production_date;
-        $product->expiration_date = $request->expiration_date;
         $product->save();
 
         return response()->json([
@@ -116,7 +119,7 @@ class product_crud extends Controller
 
     /* UPDATE A PRODUCT */
     public function index_update_product($id){
-        $product = products::find($id);
+        $product = product_info::find($id);
 
         return response()->json([
             'edit_prod' => $product
@@ -126,7 +129,7 @@ class product_crud extends Controller
 
     /* FOR UPDATING THE PRODUCT ITSELF */
     public function action_update_product(Request $request,$id){
-        $product = products::find($id)->update($request->all());
+        $product = product_info::find($id)->update($request->all());
 
         if($product){
             return response()->json([
@@ -146,11 +149,13 @@ class product_crud extends Controller
 
     /* DELETE A PRODUCT */
     public function delete_product($id){
-        $product = product_info::find($id);
+        $product  = product_info::find($id);
+
+        $product->isArchived = '1';
+        $product->save();
 
         if($product)
         {
-            $product->where('isArchived', 0)->update(['isArchived'=> 1]);
             return response()->json([
                 'message' => 'Product deleted successfully'
             ]);

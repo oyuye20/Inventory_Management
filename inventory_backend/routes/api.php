@@ -92,6 +92,10 @@ Route::get('/sales', [stats::class, 'total_sales']);
 Route::get('/sold', [stats::class, 'sold_items']);
 
 
+Route::get('/daily', [stats::class, 'dailyItems']);
+
+
+
 /* SEARCH AND FILTER */
 Route::get('/search/{data}', [filter::class, 'search']);
 

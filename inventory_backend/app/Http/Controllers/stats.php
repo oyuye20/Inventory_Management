@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\products;
 use App\Models\transactions;
 use Illuminate\Support\Facades\DB;
+use App\Models\inventory;
+use App\Models\product_info;
 
 class stats extends Controller
 {
@@ -13,7 +15,7 @@ class stats extends Controller
 
     /* FOR TOTAL NUMBER OF PRODUCTS IN DASHBOARD*/
     public function total_prod(){
-        $product_count = products::count();
+        $product_count = product_info::count();
 
         return response()->json([
             'product_count' => $product_count,
@@ -24,7 +26,7 @@ class stats extends Controller
 
     /* REMINDER OF EXPIRED PRODUCTS WITH PAGINATION*/
     public function expiration(){
-        return products::whereDate('expiration_date', '<', now())->paginate(5);
+        return inventory::whereDate('expiration_date', '<', now())->paginate(5);
 
        /*  return response()->json([
             'expiration_date' => $p,
@@ -36,7 +38,7 @@ class stats extends Controller
 
     /* NUMBER OF EXPIRED PRODUCTS */
     public function expired_count(){
-        $p = products::whereDate('expiration_date', '<', now())->count();
+        $p = inventory::whereDate('expiration_date', '<', now())->count();
 
         return response()->json([
             'exp_count' => $p,
@@ -48,7 +50,7 @@ class stats extends Controller
 
     /* TOTAL OF SUM STOCKS IN DASHBOARD*/
     public function stock_total(){
-        $total_stock = products::select('stocks')->sum('stocks');
+        $total_stock = inventory::select('stocks')->sum('stocks');
 
         return response()->json([
             'stock_total' => $total_stock,
@@ -61,7 +63,7 @@ class stats extends Controller
     /* NUMBER OF CRITICAL STOCKS IN DASHBOARD*/
     public function critical_stocks(){
         $safe_stocks = 30;
-        $crit = products::where('stocks', '<', $safe_stocks)->count();
+        $crit = inventory::where('stocks', '<', $safe_stocks)->count();
 
 
         return response()->json([
@@ -71,19 +73,6 @@ class stats extends Controller
 
     }
 
-
-
-    /* REMINDER OF LOW STOCKS */
-    public function stocks(){
-        $safe_stocks = 30;
-        $stock = products::where('stocks', '<', $safe_stocks)->get();
-
-        return response()->json([
-            'stocks' => $stock,
-            'code' => 200
-        ]);
-
-    }
 
 
     /* TOTAL SALES ITEMS */
@@ -98,7 +87,6 @@ class stats extends Controller
     }
 
     public function sold_items(){
-
         /* SELECT
         pi.id,
         pi.product_name,
@@ -135,6 +123,12 @@ class stats extends Controller
             'sold' => $sold,
             'code' => 200
         ]);
+    }
+
+
+
+    public function dailyItems(){
+        return transactions::whereDay('purchase_date', now())->get();
     }
 
 

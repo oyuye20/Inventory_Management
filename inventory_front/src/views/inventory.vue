@@ -199,18 +199,9 @@
                 </div>
             </nav>
 
-            <div class="container-fluid px-4">
-
-                <!-- <tutorial/> -->
-                
-                <inventory_content/>
-
-
-            
-                
+            <div class="container-fluid px-4">    
+                <inventory_content/>               
             </div>
-
-
 
 
         </div>

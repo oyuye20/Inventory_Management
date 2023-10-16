@@ -1,7 +1,7 @@
 <template>
 
 <transition name="modalAnim">
-    <div v-if="modalActive" class="container-fluid d-flex justify-content-center align-items-center" 
+<div v-if="modalActive" class="container-fluid d-flex justify-content-center align-items-center" 
 style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; background-color: rgba(0, 0, 0, 0.605); overflow: auto;">
     
     <div class="row container d-flex 
@@ -48,9 +48,50 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
 
 
 
+<modalComponent :open="isOpen" @close="isOpen = !isOpen">
+
+<div class="col-12 mb-4 text-start p-1 bg-danger d-flex justify-content-center">
+    <span class="fw-bold fs-3 text-white">
+    <!-- <i class="fas fa-triangle-exclamation me-3"></i> --></span>
+</div>
+
+
+<p class="px-4 text-center fw-bold fs-5">
+Are you sure you want to logout?
+</p>
+
+
+<div class="col-12 border border-black px-3"></div>
+
+<div class="d-flex justify-content-end p-3">
+    <button class="btn btn-success me-2" @click="isOpen = false">No</button>
+    <button role="button" class="btn btn-danger me-2" @click="logout">Yes</button>
+</div>
+
+
+<div class="d-flex justify-content-end p-1 bg-danger">
+    
+</div>
+
+
+
+
+</modalComponent>
+
+
+
+
+
+
+
+
+
+
+
 <body>
-    <div class="d-flex" id="wrapper">
-        
+<div class="d-flex" id="wrapper">
+
+
         <!-- Sidebar -->
 
             <div class="sidebar_wrapper" :class ="{side: isSidebar}">
@@ -65,13 +106,15 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
 
                         <span class="text-secondary fs-6">Administrator</span>
                     </div>
+
+                    
                 </div>
 
 
                 <div class="list-group list-group-flush my-3 w-100 p-3">
-          
+
                     <router-link :to="{name: 'dashboard'}">
-                    <div id="sidebtn" class="list-group-item fs-5 
+                    <div id="sidebtn" class="bg-light fs-5 
                     list-group-item-action d-flex justify-content-center rounded-5" >
 
                         <div class="div d-flex justify-content-center align-items-center">
@@ -85,10 +128,9 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
                     </div>                  
                     </router-link>
 
-
-
+          
                     <router-link :to="{name: 'products'}">
-                    <div id="sidebtn" class="list-group-item fs-5 list-group-item-action 
+                    <div id="sidebtn" class=" fs-5 list-group-item-action 
                     d-flex justify-content-center rounded-5 mt-2" style="background-color: 
                     rgb(185, 232, 206); color: rgb(57, 164, 59);">
 
@@ -103,9 +145,27 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
                     </div>
                     </router-link>
 
+                    
+
+                    <router-link :to="{name: 'inventory'}">
+                        
+                        <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+
+                        <div class="div d-flex justify-content-center align-items-center">
+                            <i class="fas fa-boxes-stacked me-3"></i>
+                        </div>
+                           
+                        <div class="div w-100">
+                            <span class="fs-4">Inventory</span>
+                        </div>
+
+                    </div>
+
+                    </router-link>
+
 
                     <router-link :to="{name: 'transaction'}">
-                    <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+                    <div id="sidebtn" class="fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
                         <div class="div d-flex justify-content-center align-items-center">
                             <i class="fas fa-receipt me-3 fa-lg"></i>
                         </div>
@@ -117,7 +177,7 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
                     </router-link>
 
 
-                    <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+                    <div id="sidebtn" class="fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
                         <div class="div d-flex justify-content-center align-items-center">
                             <i class="bi bi-receipt me-2"></i>
                         </div>
@@ -132,7 +192,7 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
 
                 
                     <router-link :to="{name: 'records'}">
-                        <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+                        <div id="sidebtn" class="fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
                             <div class="div d-flex justify-content-center align-items-center">
                                 <i class="bi bi-database-fill me-2"></i>
                             </div>
@@ -145,7 +205,7 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
 
 
 
-                    <div id="sidebtn" class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+                    <div id="sidebtn" class="fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
                         <div class="div d-flex justify-content-center align-items-center">
                             <i class="bi bi-stack me-2"></i>
                         </div>
@@ -157,8 +217,8 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
 
 
 
-                    <a id="sidebtn" role="button" @click="logout"  
-                    class="list-group-item fs-5 list-group-item-action d-flex justify-content-center rounded-5 mt-2" >
+                    <!-- <a id="sidebtn" role="button" 
+                    class="fs-5  d-flex justify-content-center rounded-5 mt-2" >
                         <div class="div d-flex justify-content-center align-items-center">
                             <i class="bi bi-power me-2"></i>
                         </div>
@@ -166,10 +226,11 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
                         <div class="div w-100">
                             <span class="fs-4">Logout</span>
                         </div>
-                    </a>
+                    </a> -->
 
               
                 </div>
+
             </div>
      
 
@@ -193,7 +254,7 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
                     <div class="div">
     
                         <span class="fs-5 h-100 me-3"><!-- {{ dateTime }} --></span>   
-                        <a role="button" class="fw-bold text-dark fs-5"><i class="bi bi-power me-2"></i>Logout</a>
+                        <a role="button" class="fw-bold text-dark fs-5" @click="isOpen = true" ><i class="bi bi-power me-2"></i>Logout</a>
                     </div>
 
                     
@@ -210,7 +271,8 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
                     </button>
                 </router-link>
 
-                <button class="btn btn-dark mt-3" @click="toggleModal">Add new category</button>
+                <button class="btn btn-dark mt-3 modal-add" @click="toggleModal">Add new category</button>
+
 
 
                 <div v-if="loading" class="p-3 d-flex justify-content-center align-items-center container-fluid h-100 mt-3">
@@ -221,10 +283,14 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
                 <div v-else class="table-responsive">
                     <h4 class="mt-3 mb-3 w-100 bg-light p-3"><i class="fas fa-box-open me-2"></i>Product Info Lists</h4>
 
-                    <!-- <div class="container-fluid d-flex mb-3 mt-3">
-                        <input type="text" role="searchbox" class="form-control me-3" placeholder="search a product">
-                        <button  class="btn btn-sm btn-primary"><i class="fas fa-magnifying-glass"></i></button>
-                    </div> -->
+                    <div class="container-fluid d-flex mb-3 mt-3">
+                        <input type="text" role="searchbox" class="form-control me-3" placeholder="search a product"
+                        style=""
+                        >
+
+                        <a role="button" class="d-flex justify-content-center align-items-center"><i class="fas fa-magnifying-glass"></i></a>
+
+                    </div>
 
 
                     <h4 v-if="typing" class="w-100 text-center d-flex justify-content-center align-items-center loading">Loading....</h4>
@@ -257,11 +323,11 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
                             <td class="m-3">
 
                                 <RouterLink :to="{name: 'edit_product', params:{id:product.id} }">
-                                    <button class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
+                                    <button class="btn btn-success"><i class="bi bi-pencil-square"></i></button>
                                 </RouterLink>
                                 
-                                <button type="button" class="btn btn-danger mx-1 mt-2" @click.prevent="del_prod(product.id)">
-                                <i class="bi bi-trash3-fill"></i></button>
+                                <button type="button" class="btn btn-warning mx-1 mt-2" @click.prevent="del_prod(product.id)">
+                                <i class="fas fa-box-archive"></i></button>
 
                             </td>
                         </tr>
@@ -301,11 +367,11 @@ style="width: 100%; height: 100%; position: fixed; overflow: auto; z-index: 1; b
                             <td class="m-3">
 
                                 <RouterLink :to="{name: 'edit_product', params:{id:cat.id} }">
-                                    <button class="btn btn-primary"><i class="bi bi-pencil-square"></i></button>
+                                    <button class="btn btn-success"><i class="bi bi-pencil-square"></i></button>
                                 </RouterLink>
                                 
-                                <button type="button" class="btn btn-danger mx-1 mt-2" @click.prevent="del_cat(cat.id)">
-                                <i class="bi bi-trash3-fill"></i></button>
+                                <button type="button" class="btn btn-warning mx-1 mt-2" @click.prevent="del_cat(cat.id)">
+                                <i class="fas fa-box-archive"></i></button>
 
                             </td>
                         </tr>
@@ -358,20 +424,31 @@ import axios_client from '../axios';
 import { ref, watchEffect } from 'vue';
 import {useVuelidate} from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
+import  modalComponent  from '@/components/modalComponent.vue';
+import { StreamBarcodeReader } from "vue-barcode-reader";
 
 export default {
     name: 'products',
 
     components: {
     Bootstrap5Pagination,
-    RouterLink
+    modalComponent,
+    RouterLink,
+    StreamBarcodeReader
 },
 
 
 
     setup(){
+        const store = useStore();
+        const router = useRouter();
+
+        
         let product_lists = ref([]);
         let category_lists = ref([]);
+
+        const isOpen = ref(false);
+        
 
         const category  = reactive({
             desc: '',
@@ -384,7 +461,7 @@ export default {
         const loading = ref(true);
         const modalActive = ref(false);
 
-        const toggleModal = ()=>{
+        const toggleModal = () =>{
             modalActive.value = !modalActive.value;
         }
 
@@ -456,8 +533,6 @@ export default {
             .then(response=>{
                 product_lists.value = response.data;
                 loading.value = false;
-
-                console.log(response.data)
             }).catch(error =>{
                 console.log(error.response.data)
             })
@@ -499,10 +574,16 @@ export default {
         })
 
 
+        function logout(){
+            store.commit('logout');
+            router.push({name: 'login'})
+        }
+
+
         return {
             user: computed(() => store.state.user.data)
             ,product_lists,del_prod,getProduct,typing,loading,isSidebar,
-            modalActive,toggleModal,create_category,category,getCat,category_lists,del_cat
+            modalActive,toggleModal,create_category,category,getCat,category_lists,del_cat,isOpen,logout
         }
 
 

@@ -85,11 +85,11 @@
                 <div class="table-responsive">
                     
                     <table class="table table-hover table-borderless text-center">
-                        <thead class="table-dark">
+                        <thead class="" style="background-color: rgb(4, 180, 116);">
                             <tr>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Total of sold items</th>
-                            <th scope="col">Total Income</th>
+                            <th scope="col" class="fw-bold">Product Name</th>
+                            <th scope="col" class="fw-bold">Total of sold items</th>
+                            <th scope="col" class="fw-bold">Total Income</th>
 
                             <!-- <th>Actions</th> -->
                             </tr>
@@ -148,17 +148,17 @@
                     
 
                     <table class="table table-hover table-borderless text-center">
-                        <thead class="table-dark">
+                        <thead class="" style="background-color: rgb(4, 180, 116);">
                             <tr>
-                            <th scope="col">Serial Number</th>
-                            <th scope="col">Manufacturer</th>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Size Name</th>
-                            <th scope="col">Stock</th>
-                            <th scope="col">Date of Production</th>
-                            <th scope="col">Expiration Date</th>
-                            <th>Status</th>
+                            <th scope="col" class="fw-bold">Serial Number</th>
+                            <th scope="col" class="fw-bold">Manufacturer</th>
+                            <th scope="col" class="fw-bold">Product Name</th>
+                            <th scope="col" class="fw-bold">Description</th>
+                            <th scope="col" class="fw-bold">Size Name</th>
+                            <th scope="col" class="fw-bold">Stock</th>
+                            <th scope="col" class="fw-bold">Date of Production</th>
+                            <th scope="col" class="fw-bold">Expiration Date</th>
+                            <th scope="col" class="fw-bold">Status</th>
                             <!-- <th>Actions</th> -->
                             </tr>
                         </thead>
